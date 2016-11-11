@@ -7,3 +7,8 @@ C:\Users\ThierryM\Documents\SAM\SamDatabase\obj\Debug\postdeploy.sql
 C:\Users\ThierryM\Documents\SAM\SamDatabase\obj\Debug\predeploy.sql
 C:\Users\ThierryM\Documents\SAM\SamDatabase\obj\Debug\SamDatabase.dll
 C:\Users\ThierryM\Documents\SAM\SamDatabase\obj\Debug\SamDatabase.pdb
+C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\bin\Debug\SamDatabase.dacpac
+C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\bin\Debug\SamDatabase.dll
+C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\bin\Debug\SamDatabase.pdb
+C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\obj\Debug\SamDatabase.dll
+C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\obj\Debug\SamDatabase.pdb
