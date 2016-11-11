@@ -1,0 +1,9 @@
+C:\Users\ThierryM\Documents\SAM\SamDatabase\bin\Debug\SamDatabase.dacpac
+C:\Users\ThierryM\Documents\SAM\SamDatabase\bin\Debug\SamDatabase.dll
+C:\Users\ThierryM\Documents\SAM\SamDatabase\bin\Debug\SamDatabase.pdb
+C:\Users\ThierryM\Documents\SAM\SamDatabase\obj\Debug\Model.xml
+C:\Users\ThierryM\Documents\SAM\SamDatabase\obj\Debug\refactor.xml
+C:\Users\ThierryM\Documents\SAM\SamDatabase\obj\Debug\postdeploy.sql
+C:\Users\ThierryM\Documents\SAM\SamDatabase\obj\Debug\predeploy.sql
+C:\Users\ThierryM\Documents\SAM\SamDatabase\obj\Debug\SamDatabase.dll
+C:\Users\ThierryM\Documents\SAM\SamDatabase\obj\Debug\SamDatabase.pdb

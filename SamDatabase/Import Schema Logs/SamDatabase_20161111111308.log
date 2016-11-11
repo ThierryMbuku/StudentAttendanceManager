@@ -1,0 +1,78 @@
+11 Nov 2016 1:13:08 PM	This log contains information about the import schema operation into project 'SamDatabase' on computer 'MININT-I2NHB4I' by user 'THIERRYM'.
+11 Nov 2016 1:13:08 PM	Import of database schema has started.
+11 Nov 2016 1:13:19 PM	Gathering database options
+11 Nov 2016 1:13:19 PM	Gathering users
+11 Nov 2016 1:13:19 PM	Gathering roles
+11 Nov 2016 1:13:19 PM	Gathering application roles
+11 Nov 2016 1:13:19 PM	Gathering role memberships
+11 Nov 2016 1:13:19 PM	Gathering filegroups
+11 Nov 2016 1:13:19 PM	Gathering full-text catalogs
+11 Nov 2016 1:13:19 PM	Gathering assemblies
+11 Nov 2016 1:13:19 PM	Gathering certificates
+11 Nov 2016 1:13:19 PM	Gathering asymmetric keys
+11 Nov 2016 1:13:19 PM	Gathering symmetric keys
+11 Nov 2016 1:13:19 PM	Gathering encrypted symmetric keys
+11 Nov 2016 1:13:19 PM	Gathering schemas
+11 Nov 2016 1:13:25 PM	Gathering XML schema collections
+11 Nov 2016 1:13:25 PM	Gathering user-defined data types
+11 Nov 2016 1:13:25 PM	Gathering user-defined types
+11 Nov 2016 1:13:25 PM	Gathering table types
+11 Nov 2016 1:13:25 PM	Gathering unique keys for table types
+11 Nov 2016 1:13:25 PM	Gathering primary keys for table types
+11 Nov 2016 1:13:25 PM	Gathering indexes for table types
+11 Nov 2016 1:13:25 PM	Gathering check constraints for table types
+11 Nov 2016 1:13:25 PM	Gathering default constraints for table types
+11 Nov 2016 1:13:25 PM	Gathering partition functions
+11 Nov 2016 1:13:25 PM	Gathering partition schemes
+11 Nov 2016 1:13:25 PM	Gathering functions
+11 Nov 2016 1:13:25 PM	Gathering encrypted functions
+11 Nov 2016 1:13:25 PM	Gathering aggregates
+11 Nov 2016 1:13:25 PM	Gathering procedures
+11 Nov 2016 1:13:25 PM	Gathering encrypted procedures
+11 Nov 2016 1:13:25 PM	Gathering tables
+11 Nov 2016 1:13:25 PM	Gathering primary keys
+11 Nov 2016 1:13:25 PM	Gathering unique constraints
+11 Nov 2016 1:13:25 PM	Gathering foreign keys
+11 Nov 2016 1:13:25 PM	Gathering default constraints
+11 Nov 2016 1:13:25 PM	Gathering check constraints
+11 Nov 2016 1:13:25 PM	Gathering views
+11 Nov 2016 1:13:25 PM	Gathering encrypted views
+11 Nov 2016 1:13:25 PM	Gathering indexes
+11 Nov 2016 1:13:25 PM	Gathering statistics
+11 Nov 2016 1:13:25 PM	Gathering full-text index stoplists
+11 Nov 2016 1:13:25 PM	Gathering search property lists
+11 Nov 2016 1:13:25 PM	Gathering search properties
+11 Nov 2016 1:13:25 PM	Gathering full-text indexes
+11 Nov 2016 1:13:25 PM	Gathering column store indexes
+11 Nov 2016 1:13:25 PM	Gathering spatial indexes
+11 Nov 2016 1:13:25 PM	Gathering XML indexes
+11 Nov 2016 1:13:26 PM	Gathering Selective XML indexes
+11 Nov 2016 1:13:26 PM	Gathering encrypted triggers
+11 Nov 2016 1:13:26 PM	Gathering triggers
+11 Nov 2016 1:13:26 PM	Gathering encrypted and clr ddl triggers
+11 Nov 2016 1:13:26 PM	Gathering ddl triggers
+11 Nov 2016 1:13:26 PM	Gathering synonyms
+11 Nov 2016 1:13:26 PM	Gathering defaults
+11 Nov 2016 1:13:26 PM	Gathering data constraint uddt bindings
+11 Nov 2016 1:13:26 PM	Gathering rules
+11 Nov 2016 1:13:26 PM	Gathering data constraint uddt bindings
+11 Nov 2016 1:13:26 PM	Gathering message types
+11 Nov 2016 1:13:26 PM	Gathering queues
+11 Nov 2016 1:13:26 PM	Gathering contracts
+11 Nov 2016 1:13:26 PM	Gathering services
+11 Nov 2016 1:13:26 PM	Gathering event notifications
+11 Nov 2016 1:13:26 PM	Gathering remote service bindings
+11 Nov 2016 1:13:26 PM	Gathering broker priorities
+11 Nov 2016 1:13:26 PM	Gathering signatures
+11 Nov 2016 1:13:26 PM	Gathering data compression options
+11 Nov 2016 1:13:26 PM	Gathering sequence types
+11 Nov 2016 1:13:26 PM	Gathering database permissions
+11 Nov 2016 1:13:26 PM	Gathering extended properties
+11 Nov 2016 1:13:26 PM	Gathering credentials
+11 Nov 2016 1:13:26 PM	Gathering logins
+11 Nov 2016 1:13:26 PM	Gathering server audits
+11 Nov 2016 1:13:27 PM	Scanning project for duplicate elements
+11 Nov 2016 1:13:27 PM	Finished duplicate element processing
+11 Nov 2016 1:13:28 PM	Finished importing database.
+11 Nov 2016 1:13:28 PM	A summary of the import was saved to the following location: C:\Users\ThierryM\Documents\SAM\SamDatabase\Import Schema Logs\SamDatabase_20161111111308.log
+11 Nov 2016 1:13:28 PM	Click Finish to continue...
