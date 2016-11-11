@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "StudentAccountView";
+}
+
+@model List<SAM1.Models.UserModel>
+
+<!DOCTYPE html>
+<p>
+</p>
+<div>
+    @Html.ActionLink("Back to Main Page", "LoggedIn", "Account")
+</div>
+<html>
+<head>
+    <title>StudentAccountView</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css.map">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/FontAwesome.otf">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2">
+
+</head>
+<body>
+    <p>
+    </p>
+    <p>
+    </p>
+    <h1>Student Details</h1>
+
+    @*@using (Html.BeginForm())
+        {
+            <h3>
+                Find by Username: @Html.TextBox("SearchString")
+                <input type="submit" value="Search" />
+            </h3>
+        }*@
+
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email Address</th>
+                    <th>CellPhone</th>
+                </tr>
+                @foreach (var Modeluser in Model)
+                {
+                    @*<tr>
+                            <td>@Modeluser.Username</td>
+                            <td>@Modeluser.FirstName</td>
+                            <td>@Modeluser.LastName</td>
+                            <td>@Modeluser.Email</td>
+                            <td>@Modeluser.CellPhone</td>
+
+                        </tr>*@
+                }
+            </table>
+        </div>
+    </div>
+    <h1>Student History/Progress</h1>
+</body>
+</html>

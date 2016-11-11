@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<p>
+</p>
+<div>
+    @Html.ActionLink("Back to Main Page", "LoggedIn", "Account")
+</div>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css.map">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/FontAwesome.otf">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2">
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>SAM</h1>
+        @*<p>Here you can la</p>*@
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Registration Date</th>
+                        <th>Sign In Day</th>
+                        <th>Sign In Hours</th>
+                        @*<th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Reason</th>*@
+                    </tr>
+                </thead>
+                @foreach (var Modeluser in Model)
+                {
+                    <tr>
+                        <td>@Modeluser.Username</td>
+                        <td>@Modeluser.FirstName</td>
+                        <td>@Modeluser.LastName</td>
+                        @*<td>@Modeluser.Email</td>
+                        <td>@Modeluser.CellPhone</td>*@
+
+                    </tr>
+                }
+                @*<tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Anna</td>
+                        <td>Pitt</td>
+                        <td><span><i class="fa fa-check text-success"></i></span></td>
+                        <td><span><i class="fa fa-times text-danger"></i></span></td>
+                        <td><span><i class="fa fa-check"></i></span></td>
+                        <td><span><i class="fa fa-check"></i></span></td>
+                        <td><span><i class="fa fa-check"></i></span></td>
+                        <td><span><i class="fa fa-times"></i></span></td>
+                    </tr>
+                </tbody>*@
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+
+
+
