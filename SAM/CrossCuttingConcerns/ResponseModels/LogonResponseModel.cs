@@ -22,7 +22,7 @@ namespace SAM1.CrossCuttingConcerns.ResponseModels
 
         internal void SetRedirectUrl(User user)
         {
-            OnSetRedirectUrl((user == null || user.IsAdmin) ? "/Home/Login" : "/Student/Student");
+            OnSetRedirectUrl((user == null || user.IsAdmin) ? "/Home/Login" : $"/Student/Student?studentId={user.ID}");
         }
        
         internal string GetRedirectUrl()

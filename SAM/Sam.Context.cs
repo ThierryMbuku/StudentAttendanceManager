@@ -27,5 +27,7 @@ namespace SAM1
     
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<EventLog> EventLogs { get; set; }
+        public virtual DbSet<EventType> EventTypes { get; set; }
     }
 }

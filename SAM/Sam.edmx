@@ -16,6 +16,24 @@
           <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PostalCode" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="EventLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventTypeId" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Severity" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MetaData" Type="varchar" MaxLength="4000" />
+        </EntityType>
+        <EntityType Name="EventType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="ID" />
@@ -31,6 +49,18 @@
           <Property Name="AddressID" Type="int" Nullable="false" />
           <Property Name="SecurityChallenge" Type="varchar" MaxLength="1000" />
         </EntityType>
+        <Association Name="FK__EventLog__EventT__52593CB8">
+          <End Role="EventType" Type="Self.EventType" Multiplicity="1" />
+          <End Role="EventLog" Type="Self.EventLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EventLog">
+              <PropertyRef Name="EventTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Users__AddressID__29572725">
           <End Role="Addresses" Type="Self.Addresses" Multiplicity="1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -45,7 +75,13 @@
         </Association>
         <EntityContainer Name="SAMModelStoreContainer">
           <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventLog" EntityType="Self.EventLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__EventLog__EventT__52593CB8" Association="Self.FK__EventLog__EventT__52593CB8">
+            <End Role="EventType" EntitySet="EventType" />
+            <End Role="EventLog" EntitySet="EventLog" />
+          </AssociationSet>
           <AssociationSet Name="FK__Users__AddressID__29572725" Association="Self.FK__Users__AddressID__29572725">
             <End Role="Addresses" EntitySet="Addresses" />
             <End Role="Users" EntitySet="Users" />
@@ -61,6 +97,12 @@
           <AssociationSet Name="FK__Users__AddressID__239E4DCF" Association="SAMModel.FK__Users__AddressID__239E4DCF">
             <End Role="Address" EntitySet="Addresses" />
             <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="EventLogs" EntityType="SAMModel.EventLog" />
+          <EntitySet Name="EventTypes" EntityType="SAMModel.EventType" />
+          <AssociationSet Name="FK__EventLog__EventT__52593CB8" Association="SAMModel.FK__EventLog__EventT__52593CB8">
+            <End Role="EventType" EntitySet="EventTypes" />
+            <End Role="EventLog" EntitySet="EventLogs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Address">
@@ -103,6 +145,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="EventLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventTypeId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Severity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="EventType" Relationship="SAMModel.FK__EventLog__EventT__52593CB8" FromRole="EventLog" ToRole="EventType" />
+          <Property Name="MetaData" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EventType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EventLogs" Relationship="SAMModel.FK__EventLog__EventT__52593CB8" FromRole="EventType" ToRole="EventLog" />
+        </EntityType>
+        <Association Name="FK__EventLog__EventT__52593CB8">
+          <End Type="SAMModel.EventType" Role="EventType" Multiplicity="1" />
+          <End Type="SAMModel.EventLog" Role="EventLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EventLog">
+              <PropertyRef Name="EventTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -133,6 +207,26 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventLogs">
+            <EntityTypeMapping TypeName="SAMModel.EventLog">
+              <MappingFragment StoreEntitySet="EventLog">
+                <ScalarProperty Name="MetaData" ColumnName="MetaData" />
+                <ScalarProperty Name="Severity" ColumnName="Severity" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventTypes">
+            <EntityTypeMapping TypeName="SAMModel.EventType">
+              <MappingFragment StoreEntitySet="EventType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

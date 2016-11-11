@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace SAM1.Areas.Student.Controllers
 {
     public class StudentController : Controller
     {
+        private readonly BusinessLayer.BusinessFacade businessFacade = new BusinessLayer.BusinessFacade();
+        
         // GET: Student
-        public ActionResult Index()
+        public ActionResult Index(int studentId)
         {
-            var businessFacade = new BusinessLayer.BusinessFacade();
-            var users = businessFacade.StudentList();
+            var student = businessFacade.FindStudent(studentId);
+            if (student == null)
+            {
+                //The ID could be hacked or maliciously sent via a tool like POSTMAN
+                return new HttpNotFoundResult("The student does not exist");
+            }
 
-            //var students = from s in users select s;
-            //if (!String.IsNullOrEmpty(search))
-            //{
-            //    users = users.Where(s => s.FirstName.Contains(search));
-            //}
-            return View(users);
-
+            return View(student);
         }
     }
 }

@@ -3,7 +3,7 @@
     ViewBag.Title = "StudentAccountView";
 }
 
-@model List<SAM1.Models.UserModel>
+@model SAM1.Models.StudentModel
 
 <!DOCTYPE html>
 <p>
@@ -54,17 +54,13 @@
                     <th>Email Address</th>
                     <th>CellPhone</th>
                 </tr>
-                @foreach (var Modeluser in Model)
-                {
-                    @*<tr>
-                            <td>@Modeluser.Username</td>
-                            <td>@Modeluser.FirstName</td>
-                            <td>@Modeluser.LastName</td>
-                            <td>@Modeluser.Email</td>
-                            <td>@Modeluser.CellPhone</td>
-
-                        </tr>*@
-                }
+                <tr>
+                    <td>@Model.Username</td>
+                    <td>@Model.FirstName</td>
+                    <td>@Model.LastName</td>
+                    <td>@Model.Email</td>
+                    <td>@Model.CellPhone</td>
+                </tr>
             </table>
         </div>
     </div>

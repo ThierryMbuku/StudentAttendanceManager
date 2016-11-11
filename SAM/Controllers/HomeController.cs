@@ -45,6 +45,7 @@ namespace SAM1.Controllers
         {
             var response = businessFacade.AuthenticateUser(user);
             TempData["LogonMessage"] = response.GetErrorMessage();
+            Session.Add("AdminUserId", user.UserId);
             return Redirect(response.GetRedirectUrl());
         }
 

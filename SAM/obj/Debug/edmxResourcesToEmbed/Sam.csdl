@@ -7,6 +7,12 @@
       <End Role="Address" EntitySet="Addresses" />
       <End Role="User" EntitySet="Users" />
     </AssociationSet>
+    <EntitySet Name="EventLogs" EntityType="SAMModel.EventLog" />
+    <EntitySet Name="EventTypes" EntityType="SAMModel.EventType" />
+    <AssociationSet Name="FK__EventLog__EventT__52593CB8" Association="SAMModel.FK__EventLog__EventT__52593CB8">
+      <End Role="EventType" EntitySet="EventTypes" />
+      <End Role="EventLog" EntitySet="EventLogs" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Address">
     <Key>
@@ -45,6 +51,38 @@
       </Principal>
       <Dependent Role="User">
         <PropertyRef Name="AddressID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="EventLog">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EventTypeId" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Severity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="EventType" Relationship="SAMModel.FK__EventLog__EventT__52593CB8" FromRole="EventLog" ToRole="EventType" />
+    <Property Name="MetaData" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="EventType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="EventLogs" Relationship="SAMModel.FK__EventLog__EventT__52593CB8" FromRole="EventType" ToRole="EventLog" />
+  </EntityType>
+  <Association Name="FK__EventLog__EventT__52593CB8">
+    <End Type="SAMModel.EventType" Role="EventType" Multiplicity="1" />
+    <End Type="SAMModel.EventLog" Role="EventLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EventType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EventLog">
+        <PropertyRef Name="EventTypeId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

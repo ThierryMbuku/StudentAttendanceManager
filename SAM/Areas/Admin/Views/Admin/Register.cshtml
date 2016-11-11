@@ -17,6 +17,7 @@
 {
     @Html.AntiForgeryToken()
     
+    <input type="hidden" name="AdminId" value="@Session["AdminUserId"]" />
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

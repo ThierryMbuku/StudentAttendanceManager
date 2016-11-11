@@ -4,13 +4,20 @@ using System.Linq;
 using SAM1.CrossCuttingConcerns.Extensions;
 using SAM1.CrossCuttingConcerns.ResponseModels;
 using System.Collections.Generic;
+using SAM1.CrossCuttingConcerns.EventLog;
 using System;
-using WebGrease.Css.Extensions;
 
 namespace SAM1.BusinessLayer
 {
     public class BusinessFacade
     {
+        private readonly IEventLogger eventLogger;       
+
+        internal BusinessFacade()
+        {
+            eventLogger = new EventLogger();
+        }
+
         internal string RegisterStudent(UserModel userModel)
         {
             //perform businness rule validation
@@ -36,10 +43,11 @@ namespace SAM1.BusinessLayer
                             Street = userModel.Address.Street,
                             Suburb = userModel.Address.Suburb,
                             City = userModel.Address.City,
-                            PostalCode = userModel.Address.PostalCode
+                            PostalCode = userModel.Address.PostalCode,
                         }
                     });
                     db.SaveChanges();
+                    eventLogger.LogEvent(userModel.AdminUserId, CrossCuttingConcerns.EventLog.EventType.Admin_Register_Student, EventSeverity.Informational);
                     return $"{userModel.FirstName} {userModel.LastName} Successfully registered";
                 }
                 catch (DbEntityValidationException ex)
@@ -50,6 +58,7 @@ namespace SAM1.BusinessLayer
 
                     var fullErrorMessage = string.Join(" => ", errorMessages);
                     var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
+                    eventLogger.LogEvent(userModel.AdminUserId, CrossCuttingConcerns.EventLog.EventType.Admin_Register_Student, EventSeverity.Error);
                     throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
                 }
             }
@@ -62,7 +71,7 @@ namespace SAM1.BusinessLayer
             //1) Go to the db and get the userId            
             using (var db = new SAMEntities())
             {
-                var authenticatedUser = db.Users.FirstOrDefault(u => u.ID == user.UserId);                
+                var authenticatedUser = db.Users.FirstOrDefault(u => u.ID == user.UserId);
 
                 //2) Go and check the challenge inputted === the stored challenge in the db
                 var isAuthenticated = string.Equals(authenticatedUser.SecurityChallenge, user.ChallengeResponse);
@@ -73,8 +82,9 @@ namespace SAM1.BusinessLayer
                 if (!isAuthenticated)
                 {
                     responseModel.SetErrorMessage("Invalid username or password");
+                    eventLogger.LogEvent(authenticatedUser.ID, CrossCuttingConcerns.EventLog.EventType.User_Authentication, EventSeverity.Error);
                 }
-                
+
                 return responseModel;
             }
         }
@@ -146,15 +156,40 @@ namespace SAM1.BusinessLayer
                 responseModel.SetRedirectUrl(usr);
                 if (usr == null)
                 {
+                    eventLogger.AddMetaData($"username: {userModel.Username} | Password: {userModel.Password}");
+                    eventLogger.LogEvent(-1, CrossCuttingConcerns.EventLog.EventType.User_Authorisation, EventSeverity.Error);
+
                     responseModel.SetErrorMessage("Invalid username or password");
                 }
                 else
                 {
+                    eventLogger.LogEvent(usr.ID, CrossCuttingConcerns.EventLog.EventType.User_Authorisation, EventSeverity.Informational);
+                    eventLogger.LogEvent(usr.ID, CrossCuttingConcerns.EventLog.EventType.User_Authentication, EventSeverity.Informational);
+
                     responseModel.IsAuthorised = true;
                     responseModel.SetUsername(usr.Username);
                 }
 
                 return responseModel;
+            }
+        }
+
+        internal StudentModel FindStudent(int studentId)
+        {
+            using (var db = new SAMEntities())
+            {
+                var dbStudent = db.Users.FirstOrDefault(x => x.ID == studentId && !x.IsAdmin);
+
+                eventLogger.LogEvent(studentId, CrossCuttingConcerns.EventLog.EventType.User_Find_Student, EventSeverity.Informational);
+
+                return dbStudent == null ? null : new StudentModel
+                {
+                    FirstName = dbStudent.FirstName,
+                    CellPhone = dbStudent.CellPhone,
+                    LastName = dbStudent.LastName,
+                    Email = dbStudent.Email,
+                    Username = dbStudent.Username,
+                };
             }
         }
     }

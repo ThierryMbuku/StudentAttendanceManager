@@ -31,6 +31,8 @@ namespace SAM1.Models
 
         [Required]
         public AddressModel Address { get; set; }
+
+        public int AdminUserId { get; set; }
     }
 
     public class AddressModel

@@ -3,7 +3,7 @@
     ViewBag.Title = "StudentAccountView";
 }
 
-@model List<SAM1.Models.UserModel>
+@model SAM1.Models.StudentModel
 
 <!DOCTYPE html>
 <p>
@@ -37,12 +37,12 @@
     <h1>Student Details</h1>
 
     @*@using (Html.BeginForm())
-    {
-        <h3>
-            Find by Username: @Html.TextBox("SearchString")
-            <input type="submit" value="Search" />
-        </h3>
-    }*@
+        {
+            <h3>
+                Find by Username: @Html.TextBox("SearchString")
+                <input type="submit" value="Search" />
+            </h3>
+        }*@
 
     <div class="container">
         <div class="table-responsive">
@@ -54,17 +54,14 @@
                     <th>Email Address</th>
                     <th>CellPhone</th>
                 </tr>
-                @foreach (var Modeluser in Model)
-                {
-                    @*<tr>
-                        <td>@Modeluser.Username</td>
-                        <td>@Modeluser.FirstName</td>
-                        <td>@Modeluser.LastName</td>
-                        <td>@Modeluser.Email</td>
-                        <td>@Modeluser.CellPhone</td>
+                <tr>
+                    <td>@Model.Username</td>
+                    <td>@Model.FirstName</td>
+                    <td>@Model.LastName</td>
+                    <td>@Model.Email</td>
+                    <td>@Model.CellPhone</td>
 
-                    </tr>*@
-                }
+                </tr>
             </table>
         </div>
     </div>

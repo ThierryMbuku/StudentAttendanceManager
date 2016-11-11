@@ -8,6 +8,9 @@
         <EntityTypeShape EntityType="SAMModel.Address" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="SAMModel.User" Width="1.5" PointX="3.375" PointY="0.75" />
         <AssociationConnector Association="SAMModel.FK__Users__AddressID__239E4DCF" />
+        <EntityTypeShape EntityType="SAMModel.EventLog" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="SAMModel.EventType" Width="1.5" PointX="2.75" PointY="4.75" />
+        <AssociationConnector Association="SAMModel.FK__EventLog__EventT__52593CB8" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

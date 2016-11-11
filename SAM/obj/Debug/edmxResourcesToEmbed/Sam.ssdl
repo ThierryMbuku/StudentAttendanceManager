@@ -11,6 +11,24 @@
     <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="PostalCode" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
+  <EntityType Name="EventLog">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EventTypeId" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Severity" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="MetaData" Type="varchar" MaxLength="4000" />
+  </EntityType>
+  <EntityType Name="EventType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="Users">
     <Key>
       <PropertyRef Name="ID" />
@@ -26,6 +44,18 @@
     <Property Name="AddressID" Type="int" Nullable="false" />
     <Property Name="SecurityChallenge" Type="varchar" MaxLength="1000" />
   </EntityType>
+  <Association Name="FK__EventLog__EventT__52593CB8">
+    <End Role="EventType" Type="Self.EventType" Multiplicity="1" />
+    <End Role="EventLog" Type="Self.EventLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EventType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EventLog">
+        <PropertyRef Name="EventTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Users__AddressID__29572725">
     <End Role="Addresses" Type="Self.Addresses" Multiplicity="1" />
     <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -40,7 +70,13 @@
   </Association>
   <EntityContainer Name="SAMModelStoreContainer">
     <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EventLog" EntityType="Self.EventLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__EventLog__EventT__52593CB8" Association="Self.FK__EventLog__EventT__52593CB8">
+      <End Role="EventType" EntitySet="EventType" />
+      <End Role="EventLog" EntitySet="EventLog" />
+    </AssociationSet>
     <AssociationSet Name="FK__Users__AddressID__29572725" Association="Self.FK__Users__AddressID__29572725">
       <End Role="Addresses" EntitySet="Addresses" />
       <End Role="Users" EntitySet="Users" />
