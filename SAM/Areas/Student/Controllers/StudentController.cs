@@ -22,33 +22,5 @@ namespace SAM1.Areas.Student.Controllers
             return View(users);
 
         }
-
-        public ActionResult Attendance()
-        {
-            var businessFacade = new BusinessLayer.BusinessFacade();
-            var users = businessFacade.StudentList();
-
-            return View(users);
-
-        }
-
-
-        public ActionResult SignRegister()
-        {
-            var businessFacade = new BusinessLayer.BusinessFacade();
-            var users = businessFacade.StudentList();
-
-            return View(users);
-
-        }
-
-        public ActionResult StudentAccountView()
-        {
-            var businessFacade = new BusinessLayer.BusinessFacade();
-            var users = businessFacade.StudentList();
-
-            return View(users);
-
-        }
     }
 }

@@ -8,6 +8,7 @@
     [CellPhone]    NVARCHAR (50)  NULL,
     [IsAdmin]      BIT            NOT NULL,
     [AddressID]    INT            NOT NULL,
+    [SecurityChallenge] VARCHAR(1000) NULL, 
     CONSTRAINT [PK__Users__3214EC27195199F1] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK__Users__AddressID__29572725] FOREIGN KEY ([AddressID]) REFERENCES [dbo].[Addresses] ([ID])
 );

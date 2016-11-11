@@ -21,9 +21,8 @@ var message = TempData["LogonMessage"] == null ? "" : TempData["LogonMessage"];
     using (Html.BeginForm("Authenticate", "Home"))
     {
         @Html.AntiForgeryToken()
-
+        <input type="hidden" name="UserId" value="@TempData["UserId"]" />
         <div class="form-horizontal">
-
             <div class="form-group">
                 @Html.Label("Challenge", new { @class = "control -label col-md-2" })
                 <div class="col-md-10">

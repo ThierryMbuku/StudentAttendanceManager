@@ -23,6 +23,7 @@ namespace SAM1
         public string CellPhone { get; set; }
         public bool IsAdmin { get; set; }
         public int AddressID { get; set; }
+        public string SecurityChallenge { get; set; }
     
         public virtual Address Address { get; set; }
     }

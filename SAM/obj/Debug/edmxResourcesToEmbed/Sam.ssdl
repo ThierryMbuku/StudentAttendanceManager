@@ -24,6 +24,7 @@
     <Property Name="CellPhone" Type="nvarchar" MaxLength="50" />
     <Property Name="IsAdmin" Type="bit" Nullable="false" />
     <Property Name="AddressID" Type="int" Nullable="false" />
+    <Property Name="SecurityChallenge" Type="varchar" MaxLength="1000" />
   </EntityType>
   <Association Name="FK__Users__AddressID__29572725">
     <End Role="Addresses" Type="Self.Addresses" Multiplicity="1" />

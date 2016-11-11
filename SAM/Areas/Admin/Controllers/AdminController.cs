@@ -31,7 +31,7 @@ namespace SAM1.Areas.Admin.Controllers
             }
             return View();
         }
-        
+
         public ActionResult LoggedIn()
         {
             if (Session["Username"] != null)
@@ -42,6 +42,30 @@ namespace SAM1.Areas.Admin.Controllers
             {
                 return RedirectToAction("Login");
             }
+        }
+        public ActionResult StudentAccountView()
+        {
+            var businessFacade = new BusinessLayer.BusinessFacade();
+            var users = businessFacade.StudentList();
+
+            return View(users);
+
+        }
+        public ActionResult Attendance()
+        {
+            var businessFacade = new BusinessLayer.BusinessFacade();
+            var users = businessFacade.StudentList();
+
+            return View(users);
+        }
+
+        public ActionResult SignRegister()
+        {
+            var businessFacade = new BusinessLayer.BusinessFacade();
+            var users = businessFacade.StudentList();
+
+            return View(users);
+
         }
     }
 }

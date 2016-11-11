@@ -54,13 +54,38 @@ namespace SAM1.BusinessLayer
                 }
             }
         }
+
+        internal LogonResponseModel AuthenticateUser(LogonUserModel user)
+        {
+            var responseModel = new LogonResponseModel();
+
+            //1) Go to the db and get the userId            
+            using (var db = new SAMEntities())
+            {
+                var authenticatedUser = db.Users.FirstOrDefault(u => u.ID == user.UserId);                
+
+                //2) Go and check the challenge inputted === the stored challenge in the db
+                var isAuthenticated = string.Equals(authenticatedUser.SecurityChallenge, user.ChallengeResponse);
+                responseModel.IsAuthenticated = isAuthenticated; //? Session based??
+
+                responseModel.SetAuthenticationUrl(isAuthenticated);
+
+                if (!isAuthenticated)
+                {
+                    responseModel.SetErrorMessage("Invalid username or password");
+                }
+                
+                return responseModel;
+            }
+        }
+
         // List of students
-            //            if (string.IsNullOrEmpty(studentid))
-            //{
-            //}
-            //else
-            //{
-            //}
+        //            if (string.IsNullOrEmpty(studentid))
+        //{
+        //}
+        //else
+        //{
+        //}
         internal List<UserModel> StudentList(string studentid = "")
         {
             var modeluser = new List<UserModel>();
@@ -82,7 +107,7 @@ namespace SAM1.BusinessLayer
                 });
             }
             return modeluser;
-}
+        }
         //Individual records/Details
         //internal UserModel StudentDetail()
         //{
@@ -108,7 +133,7 @@ namespace SAM1.BusinessLayer
         //    return modeluser;
         //}
         internal LogonResponseModel LogOn(LogonUserModel userModel)
-        {            
+        {
             //Step 1 Generate hash for password
             var responseModel = new LogonResponseModel();
             var hash = userModel.Password.GenerateHash();
@@ -117,6 +142,7 @@ namespace SAM1.BusinessLayer
             using (var db = new SAMEntities())
             {
                 var usr = db.Users.FirstOrDefault(u => u.Username == userModel.Username && u.PasswordHash == hash);
+                responseModel.SetUserId(usr);
                 responseModel.SetRedirectUrl(usr);
                 if (usr == null)
                 {

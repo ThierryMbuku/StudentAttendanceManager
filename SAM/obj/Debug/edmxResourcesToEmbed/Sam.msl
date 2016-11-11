@@ -16,6 +16,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="SAMModel.User">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="SecurityChallenge" ColumnName="SecurityChallenge" />
           <ScalarProperty Name="AddressID" ColumnName="AddressID" />
           <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
           <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />

@@ -28,12 +28,13 @@
     <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="Username" Type="String" Nullable="false" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
     <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="CellPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
     <Property Name="AddressID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Address" Relationship="SAMModel.FK__Users__AddressID__239E4DCF" FromRole="User" ToRole="Address" />
+    <Property Name="SecurityChallenge" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK__Users__AddressID__239E4DCF">
     <End Type="SAMModel.Address" Role="Address" Multiplicity="1" />

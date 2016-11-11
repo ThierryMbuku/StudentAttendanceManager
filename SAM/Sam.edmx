@@ -29,6 +29,7 @@
           <Property Name="CellPhone" Type="nvarchar" MaxLength="50" />
           <Property Name="IsAdmin" Type="bit" Nullable="false" />
           <Property Name="AddressID" Type="int" Nullable="false" />
+          <Property Name="SecurityChallenge" Type="varchar" MaxLength="1000" />
         </EntityType>
         <Association Name="FK__Users__AddressID__29572725">
           <End Role="Addresses" Type="Self.Addresses" Multiplicity="1" />
@@ -82,12 +83,13 @@
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Username" Type="String" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CellPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
           <Property Name="AddressID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Address" Relationship="SAMModel.FK__Users__AddressID__239E4DCF" FromRole="User" ToRole="Address" />
+          <Property Name="SecurityChallenge" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK__Users__AddressID__239E4DCF">
           <End Type="SAMModel.Address" Role="Address" Multiplicity="1" />
@@ -122,6 +124,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="SAMModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="SecurityChallenge" ColumnName="SecurityChallenge" />
                 <ScalarProperty Name="AddressID" ColumnName="AddressID" />
                 <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />

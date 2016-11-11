@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,10 +17,10 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Register Student", "Register")</li>
-                    <li>@Html.ActionLink("View Students", "index", "Student")</li>
-                    <li>@Html.ActionLink("Sign Attendance List", "SignRegister", "Student")</li>
-                    <li>@Html.ActionLink("View Attendance", "Attendance", "Student")</li>
-                    <li>@Html.ActionLink("Logout", "Index")</li>
+                    <li>@Html.ActionLink("View Students", "StudentViewList")</li>
+                    <li>@Html.ActionLink("Sign Attendance List", "SignRegister")</li>
+                    <li>@Html.ActionLink("View Attendance", "Attendance")</li>
+                    <li><a href="/home/LogOut">Logout</a></li>
                 </ul>
             </div>
         </div>
