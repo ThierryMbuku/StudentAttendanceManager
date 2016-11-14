@@ -56,6 +56,8 @@ namespace SAM1.Areas.Admin.Controllers
             var businessFacade = new BusinessLayer.BusinessFacade();
             var users = businessFacade.StudentList();
 
+       //     var userSignInTime = businessFacade.StudentList();
+
             return View(users);
         }
 

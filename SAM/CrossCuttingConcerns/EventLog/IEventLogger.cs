@@ -4,7 +4,7 @@ namespace SAM1.CrossCuttingConcerns.EventLog
 {
     public enum EventType
     {
-        User_Authorisation,
+        User_Authorisation = 1,
         User_Authentication,
         User_Logout,
         Admin_Register_Student,
@@ -15,7 +15,7 @@ namespace SAM1.CrossCuttingConcerns.EventLog
 
     public enum EventSeverity
     {
-        Informational,
+        Informational = 1,
         Error
     }
 

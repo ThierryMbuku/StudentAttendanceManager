@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace SAM1.Areas.Student.Controllers
 {
@@ -18,5 +19,30 @@ namespace SAM1.Areas.Student.Controllers
 
             return View(student);
         }
+
+        public JsonResult GetStudentAttendanceProgress(int studentId)
+        {
+            //1) make call to Business facade to calculate the student's progress
+
+            var list = new List<Result>();
+            list.Add(new Result
+            {
+                SeriesTitle = "Days Attended",
+                SeriesValue = 2
+            });
+            list.Add(new Result
+            {
+                SeriesTitle = "Days Not Attended",
+                SeriesValue = 3
+            });
+
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+    }
+
+    public class Result
+    {
+        public string SeriesTitle { get; set; }
+        public int SeriesValue { get; set; }
     }
 }

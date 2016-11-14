@@ -6,12 +6,13 @@ using SAM1.CrossCuttingConcerns.ResponseModels;
 using System.Collections.Generic;
 using SAM1.CrossCuttingConcerns.EventLog;
 using System;
+using System.Collections;
 
 namespace SAM1.BusinessLayer
 {
     public class BusinessFacade
     {
-        private readonly IEventLogger eventLogger;       
+        private readonly IEventLogger eventLogger;
 
         internal BusinessFacade()
         {
@@ -28,7 +29,7 @@ namespace SAM1.BusinessLayer
             {
                 try
                 {
-                    db.Users.Add(new User
+                    var user = new User
                     {
                         Username = userModel.Username,
                         FirstName = userModel.FirstName,
@@ -45,9 +46,12 @@ namespace SAM1.BusinessLayer
                             City = userModel.Address.City,
                             PostalCode = userModel.Address.PostalCode,
                         }
-                    });
+                    };
+                    db.Users.Add(user);
                     db.SaveChanges();
-                    eventLogger.LogEvent(userModel.AdminUserId, CrossCuttingConcerns.EventLog.EventType.Admin_Register_Student, EventSeverity.Informational);
+
+                    eventLogger.LogEvent(user.ID, CrossCuttingConcerns.EventLog.EventType.Admin_Register_Student, EventSeverity.Informational);
+
                     return $"{userModel.FirstName} {userModel.LastName} Successfully registered";
                 }
                 catch (DbEntityValidationException ex)
@@ -89,23 +93,18 @@ namespace SAM1.BusinessLayer
             }
         }
 
-        // List of students
-        //            if (string.IsNullOrEmpty(studentid))
-        //{
-        //}
-        //else
-        //{
-        //}
         internal List<UserModel> StudentList(string studentid = "")
         {
             var modeluser = new List<UserModel>();
             using (var db = new SAMEntities())
             {
-                var users = db.Users.ToList();
+                var users = db.Users.Where(x => !x.IsAdmin).ToList();
+                var eventLogs = db.EventLogs.Distinct().ToList();
 
-                users.ForEach(user =>
+                foreach (var user in users)
                 {
-
+                    var registrationEventLog = eventLogs.FirstOrDefault(x => x.UserId == user.ID && x.EventTypeId == CrossCuttingConcerns.EventLog.EventType.Admin_Register_Student.GetEnumValue());
+                    var signinEventLog = eventLogs.LastOrDefault(x => x.UserId == user.ID && x.EventTypeId == CrossCuttingConcerns.EventLog.EventType.User_Authorisation.GetEnumValue());                   
                     modeluser.Add(new UserModel
                     {
                         Username = user.Username.ToString(),
@@ -113,11 +112,15 @@ namespace SAM1.BusinessLayer
                         LastName = user.LastName,
                         Email = user.Email,
                         CellPhone = user.CellPhone,
+                        RegistrationDate = registrationEventLog.CreateDate.ToShortDateString(),
+                        SigninDate = signinEventLog == null ? "Not Logged In" : signinEventLog.CreateDate.ToShortDateString(),
+                        SigninTime = signinEventLog == null ? "Not Logged In" : signinEventLog.CreateDate.ToShortTimeString(),
                     });
-                });
+                }
+                return modeluser;
             }
-            return modeluser;
         }
+
         //Individual records/Details
         //internal UserModel StudentDetail()
         //{
@@ -184,6 +187,7 @@ namespace SAM1.BusinessLayer
 
                 return dbStudent == null ? null : new StudentModel
                 {
+                    Id = dbStudent.ID,
                     FirstName = dbStudent.FirstName,
                     CellPhone = dbStudent.CellPhone,
                     LastName = dbStudent.LastName,

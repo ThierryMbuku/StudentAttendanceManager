@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity.Validation;
 using System.Linq;
+using SAM1.CrossCuttingConcerns.Extensions;
 
 namespace SAM1.CrossCuttingConcerns.EventLog
 {
@@ -20,16 +21,15 @@ namespace SAM1.CrossCuttingConcerns.EventLog
                 {
                     var eventSeverity = severity.ToString();
                     var eventTypeDescription = eventType.ToString();
+                    var eventTypeId = eventType.GetEnumValue();
+
                     var eventLog = new SAM1.EventLog
                     {
                         CreateDate = DateTime.Now,
                         UserId = userId,
                         Severity = eventSeverity,
-                        EventType = new SAM1.EventType
-                        {
-                            Description = eventTypeDescription,
-                        },
-                        MetaData = metaData
+                        MetaData = metaData,
+                        EventTypeId = eventTypeId,
                     };
 
                     db.EventLogs.Add(eventLog);

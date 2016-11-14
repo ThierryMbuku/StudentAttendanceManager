@@ -33,6 +33,11 @@ namespace SAM1.Models
         public AddressModel Address { get; set; }
 
         public int AdminUserId { get; set; }
+
+        public string SigninDate { get; set; }
+        public string SigninTime { get; set; }
+        public string RegistrationDate { get; set; }
+
     }
 
     public class AddressModel

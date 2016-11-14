@@ -28,7 +28,7 @@
     <title>StudentAccountView</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css.map">
@@ -40,15 +40,86 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2">
 
+    <script src="~/Scripts/highcharts.js"></script>
+    <script src="~/Scripts/exporting.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $.ajax({
+                    url: 'Student/GetStudentAttendanceProgress?studentId=' + @Model.Id,
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    async: false,
+                    processData: false,
+                    cache: false,
+                    delay: 15,
+                    success: function (seriesData) {
+                        var series = new Array();
+                        for (var i = 0; i < seriesData.length; i++) {
+                            var seriesItem = {
+                                name: seriesData[i].SeriesTitle,
+                                y: seriesData[i].SeriesValue
+                            };
+                            series.push(seriesItem);
+                        }
+                        DrawPieChart(series);
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+            function DrawPieChart(series) {
+                console.log(series);
+                var chart = new Highcharts.Chart({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: 1,
+                        plotShadow: false,
+                        renderTo: "container"
+                    },
+                    title: {
+                        text: 'Student Attendance Summary'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    exporting: {
+                        buttons: {
+                            contextButtons: {
+                                enabled: false,
+                                menuItems: null
+                            }
+                        },
+                        enabled: false
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Task Status',
+                        data: series
+                    }]
+                });
+            }
+        });
+    </script>
 </head>
 
 <body>
-
     <h1>Student Details</h1>
     <div class="container">
-
         <div class="table-responsive">
-
             <table class="table table-hover">
                 <tr>
                     <th>Username</th>
@@ -68,5 +139,17 @@
         </div>
     </div>
     <h1>Student History/Progress</h1>
+
+    <p>
+        <b>Registration Date: 12/12/2035</b>
+    </p>
+
+    <p>
+        <b>Last Sign in Date: 10/12/2035</b>
+    </p>
+    <p>
+        <b>Last Sign in Time: 14:32</b>
+    </p>
+    <div id="container" style="min-width: 350px; height: 350px; max-width: 600px; margin: 0 auto"></div>
 </body>
 </html>
