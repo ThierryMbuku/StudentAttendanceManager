@@ -14,18 +14,6 @@ namespace SAM1
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-
-           // routes.MapRoute(
-           //    name: "Admin",
-           //    url: "{area}/{controller}/{action}/{id}",
-           //    defaults: new { controller = "Admin", action = "Index", id = UrlParameter.Optional }
-           //);
-
-           // routes.MapRoute(
-           //    name: "Student",
-           //    url: "{area}/{controller}/{action}/{id}",
-           //    defaults: new { controller = "Student", action = "Index", id = UrlParameter.Optional }
-           //);
         }
     }
 }

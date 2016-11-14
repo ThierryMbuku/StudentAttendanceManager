@@ -1,8 +1,13 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
 <p>
 </p>
 <div>
-    @Html.ActionLink("Back to Main Page", "LoggedIn", "Account")
+    @Html.ActionLink("Back to Main Page", "Index")
 </div>
 <html>
 <head>
@@ -24,7 +29,7 @@
 <body>
 
     <div class="container">
-        <h1>SAM</h1>
+        <h1>SAM Attendance</h1>
         @*<p>Here you can la</p>*@
         <div class="table-responsive">
             <table class="table">

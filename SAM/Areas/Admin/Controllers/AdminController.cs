@@ -43,7 +43,7 @@ namespace SAM1.Areas.Admin.Controllers
                 return RedirectToAction("Login");
             }
         }
-        public ActionResult StudentAccountView()
+        public ActionResult StudentViewList()
         {
             var businessFacade = new BusinessLayer.BusinessFacade();
             var users = businessFacade.StudentList();
