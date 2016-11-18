@@ -5,8 +5,9 @@ using SAM1.CrossCuttingConcerns.Extensions;
 using SAM1.CrossCuttingConcerns.ResponseModels;
 using System.Collections.Generic;
 using SAM1.CrossCuttingConcerns.EventLog;
+using System.IO.Ports;
 using System;
-using System.Collections;
+using System.Globalization;
 
 namespace SAM1.BusinessLayer
 {
@@ -68,6 +69,37 @@ namespace SAM1.BusinessLayer
             }
         }
 
+        internal SigninProgressResponseModel CalculateStudentProgess(int studentId)
+        {
+            using (var db = new SAMEntities())
+            {
+
+                //Sign In
+
+                var eventTypeId = CrossCuttingConcerns.EventLog.EventType.User_Authentication.GetEnumValue();
+
+                //Get the current week
+                var currentDateTimeFormatInfo = DateTimeFormatInfo.CurrentInfo;
+                var calendar = currentDateTimeFormatInfo.Calendar;
+                var weekNumber = calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday); //46
+                var eventSeverity = EventSeverity.Informational.ToString();
+                var authenticationEvents = db.EventLogs.Where(x => x.UserId == studentId && x.EventTypeId == eventTypeId && x.Severity == eventSeverity).ToList();
+
+                //Filter the records using the week number
+
+                //HINT: Check that the number of records is not greater than 5 - try removing duplicates --> student might sign in more than once on the same day. LINQ: Distinct
+                var signedInDates = authenticationEvents.Count(x => calendar.GetWeekOfYear(x.CreateDate, CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday) == weekNumber);
+                const int requiredSigninDayCount = 5;
+
+                var responseModel = new SigninProgressResponseModel();
+
+                responseModel.CreateProgressItem("Days Attended", signedInDates);
+                responseModel.CreateProgressItem("Days Required Attendance",requiredSigninDayCount);
+
+                return responseModel;
+            }
+        }
+
         internal LogonResponseModel AuthenticateUser(LogonUserModel user)
         {
             var responseModel = new LogonResponseModel();
@@ -104,7 +136,7 @@ namespace SAM1.BusinessLayer
                 foreach (var user in users)
                 {
                     var registrationEventLog = eventLogs.FirstOrDefault(x => x.UserId == user.ID && x.EventTypeId == CrossCuttingConcerns.EventLog.EventType.Admin_Register_Student.GetEnumValue());
-                    var signinEventLog = eventLogs.LastOrDefault(x => x.UserId == user.ID && x.EventTypeId == CrossCuttingConcerns.EventLog.EventType.User_Authorisation.GetEnumValue());                   
+                    var signinEventLog = eventLogs.LastOrDefault(x => x.UserId == user.ID && x.EventTypeId == CrossCuttingConcerns.EventLog.EventType.User_Authorisation.GetEnumValue());
                     modeluser.Add(new UserModel
                     {
                         Username = user.Username.ToString(),
@@ -197,4 +229,38 @@ namespace SAM1.BusinessLayer
             }
         }
     }
+    //public class ArduinoPort
+    //{
+    //    private string indata = "";
+    //    public ArduinoPort()
+    //    {
+    //        SerialPort mySerialPort = new SerialPort("COM6");
+
+    //        mySerialPort.BaudRate = 9600;
+    //        mySerialPort.Parity = Parity.None;
+    //        mySerialPort.StopBits = StopBits.One;
+    //        mySerialPort.DataBits = 8;
+    //        mySerialPort.Handshake = Handshake.None;
+
+    //        mySerialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+
+    //        mySerialPort.Open();
+
+    //        mySerialPort.Close();
+    //    }
+
+    //    public string getIndata()
+    //    {
+    //        return this.indata;
+    //    }
+
+    //    private void DataReceivedHandler(
+    //                   object sender,
+    //                   SerialDataReceivedEventArgs e)
+    //    {
+    //        SerialPort sp = (SerialPort)sender;
+    //        indata = sp.ReadExisting();
+
+    //    }
+    //}
 }

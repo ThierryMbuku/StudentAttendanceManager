@@ -196,6 +196,7 @@
     </Compile>
     <Compile Include="Models\LogonUserModel.cs" />
     <Compile Include="Models\SearchFilterModel.cs" />
+    <Compile Include="Models\SigninProgressResponseModel.cs" />
     <Compile Include="Models\StudentModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -322,7 +323,6 @@
     <Content Include="Areas\Student\Views\Student\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Attendance.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\SignRegister.cshtml" />
-    <Content Include="Areas\Student\Views\Student\StudentAccountView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

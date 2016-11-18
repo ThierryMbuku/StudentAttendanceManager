@@ -21,28 +21,13 @@ namespace SAM1.Areas.Student.Controllers
         }
 
         public JsonResult GetStudentAttendanceProgress(int studentId)
-        {
-            //1) make call to Business facade to calculate the student's progress
-
-            var list = new List<Result>();
-            list.Add(new Result
             {
-                SeriesTitle = "Days Attended",
-                SeriesValue = 2
-            });
-            list.Add(new Result
-            {
-                SeriesTitle = "Days Not Attended",
-                SeriesValue = 3
-            });
+                //1) make call to Business facade to calculate the student's progress
+                var businessFacade = new BusinessLayer.BusinessFacade();
+                var studentProgress = businessFacade.CalculateStudentProgess(studentId);
 
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
-    }
-
-    public class Result
-    {
-        public string SeriesTitle { get; set; }
-        public int SeriesValue { get; set; }
+                return Json(studentProgress.GetProgressList(), JsonRequestBehavior.AllowGet);
+            }
+     
     }
 }

@@ -67,6 +67,7 @@
                         DrawPieChart(series);
                     },
                     error: function (xhr) {
+                        console.log(xhr);
                         alert('error');
                     }
                 });
@@ -81,7 +82,7 @@
                         renderTo: "container"
                     },
                     title: {
-                        text: 'Student Attendance Summary'
+                        text: 'Student Attendance Summary Per Week'
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -138,18 +139,17 @@
             </table>
         </div>
     </div>
-    <h1>Student History/Progress</h1>
-
-    <p>
-        <b>Registration Date: 12/12/2035</b>
+    <h1>Student History</h1>
+    @*<p>
+        <b>Registration Date: @Model.RegistrationDate</b>
     </p>
 
     <p>
-        <b>Last Sign in Date: 10/12/2035</b>
+        <b>Last Sign in Date: @Model.SigninDate</b>
     </p>
     <p>
-        <b>Last Sign in Time: 14:32</b>
-    </p>
+        <b>Last Sign in Time: @Model.SigninTime</b>
+    </p>*@
     <div id="container" style="min-width: 350px; height: 350px; max-width: 600px; margin: 0 auto"></div>
 </body>
 </html>

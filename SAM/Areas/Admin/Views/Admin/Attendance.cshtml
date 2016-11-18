@@ -30,7 +30,6 @@
 
     <div class="container">
         <h1>SAM Attendance</h1>
-        @*<p>Here you can la</p>*@
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -39,11 +38,9 @@
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Registration Date</th>
-                        <th>Sign In Day</th>
-                        <th>Sign In Hours</th>
-                        @*<th>Thursday</th>
-                        <th>Friday</th>
-                        <th>Reason</th>*@
+                        <th>Last Login Day</th>
+                        <th>Last Login Hours</th>
+                        <th>Last Attendance Date</th>
                     </tr>
                 </thead>
                 @foreach (var Modeluser in Model)
@@ -52,7 +49,6 @@
                         <td>@Modeluser.Username</td>
                         <td>@Modeluser.FirstName</td>
                         <td>@Modeluser.LastName</td>
-                        @*<td>@Modeluser.Email</td>*@
                         <td>@Modeluser.RegistrationDate</td>
                         <td>@Modeluser.SigninDate</td>
                         <td>@Modeluser.SigninTime</td>
