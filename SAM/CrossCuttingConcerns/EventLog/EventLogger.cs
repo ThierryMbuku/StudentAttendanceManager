@@ -13,6 +13,11 @@ namespace SAM1.CrossCuttingConcerns.EventLog
             metaData = extraInfo;
         }
 
+        public void LogEvent(string studentNo, EventType user_Find_Student, EventSeverity informational)
+        {
+            //throw new NotImplementedException();
+        }
+
         public void LogEvent(int userId, EventType eventType, EventSeverity severity)
         {
             using (var db = new SAMEntities())

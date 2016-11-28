@@ -23,7 +23,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EventTypeId" Type="int" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
-          <Property Name="UserId" Type="int" />
+          <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Severity" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="MetaData" Type="varchar" MaxLength="4000" />
         </EntityType>
@@ -49,7 +49,7 @@
           <Property Name="AddressID" Type="int" Nullable="false" />
           <Property Name="SecurityChallenge" Type="varchar" MaxLength="1000" />
         </EntityType>
-        <Association Name="FK__EventLog__EventT__52593CB8">
+        <Association Name="FK_EventLog_EventType">
           <End Role="EventType" Type="Self.EventType" Multiplicity="1" />
           <End Role="EventLog" Type="Self.EventLog" Multiplicity="*" />
           <ReferentialConstraint>
@@ -61,8 +61,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Users__AddressID__29572725">
-          <End Role="Addresses" Type="Self.Addresses" Multiplicity="1" />
+        <Association Name="FK_Users_Addresses">
+          <End Role="Addresses" Type="Self.Addresses" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Addresses">
@@ -78,11 +80,11 @@
           <EntitySet Name="EventLog" EntityType="Self.EventLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__EventLog__EventT__52593CB8" Association="Self.FK__EventLog__EventT__52593CB8">
+          <AssociationSet Name="FK_EventLog_EventType" Association="Self.FK_EventLog_EventType">
             <End Role="EventType" EntitySet="EventType" />
             <End Role="EventLog" EntitySet="EventLog" />
           </AssociationSet>
-          <AssociationSet Name="FK__Users__AddressID__29572725" Association="Self.FK__Users__AddressID__29572725">
+          <AssociationSet Name="FK_Users_Addresses" Association="Self.FK_Users_Addresses">
             <End Role="Addresses" EntitySet="Addresses" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
@@ -152,7 +154,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EventTypeId" Type="Int32" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UserId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="Severity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="EventType" Relationship="SAMModel.FK__EventLog__EventT__52593CB8" FromRole="EventLog" ToRole="EventType" />
           <Property Name="MetaData" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />

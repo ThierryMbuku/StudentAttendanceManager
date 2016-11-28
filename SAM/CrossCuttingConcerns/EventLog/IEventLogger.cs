@@ -23,5 +23,6 @@ namespace SAM1.CrossCuttingConcerns.EventLog
     {
         void LogEvent(int userId, EventType eventType, EventSeverity severity);
         void AddMetaData(string metadata);
+        void LogEvent(string studentNo, EventType user_Find_Student, EventSeverity informational);
     }
 }

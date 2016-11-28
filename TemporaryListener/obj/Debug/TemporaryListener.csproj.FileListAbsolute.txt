@@ -1,0 +1,6 @@
+C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug\TemporaryListener.exe.config
+C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug\TemporaryListener.exe
+C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug\TemporaryListener.pdb
+C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\obj\Debug\TemporaryListener.exe
+C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\obj\Debug\TemporaryListener.pdb
+C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\obj\Debug\TemporaryListener.csprojResolveAssemblyReference.cache

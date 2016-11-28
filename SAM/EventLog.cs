@@ -17,7 +17,7 @@ namespace SAM1
         public int ID { get; set; }
         public int EventTypeId { get; set; }
         public System.DateTime CreateDate { get; set; }
-        public Nullable<int> UserId { get; set; }
+        public int UserId { get; set; }
         public string Severity { get; set; }
         public string MetaData { get; set; }
     

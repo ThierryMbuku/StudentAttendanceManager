@@ -1,4 +1,5 @@
 ﻿using SAM1.Models;
+using System.IO.Ports;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -18,6 +19,8 @@ namespace SAM1.Areas.Admin.Controllers
         }
         public ActionResult Register()
         {
+            var userId = businessFacade.GetUserIdFromTag(); // to be called from a timer event (set timer to 2 - 3 secs)
+            ViewBag.UID = userId;
             return View();
         }
         [HttpPost]
@@ -55,19 +58,16 @@ namespace SAM1.Areas.Admin.Controllers
         {
             var businessFacade = new BusinessLayer.BusinessFacade();
             var users = businessFacade.StudentList();
-
-       //     var userSignInTime = businessFacade.StudentList();
-
             return View(users);
         }
+        //public ActionResult SignRegister()
+        //{
+        //    var businessFacade = new BusinessLayer.BusinessFacade();
+        //    var users = businessFacade.StudentList();
 
-        public ActionResult SignRegister()
-        {
-            var businessFacade = new BusinessLayer.BusinessFacade();
-            var users = businessFacade.StudentList();
+        //    return View(users);
 
-            return View(users);
+        //}
 
-        }
     }
 }

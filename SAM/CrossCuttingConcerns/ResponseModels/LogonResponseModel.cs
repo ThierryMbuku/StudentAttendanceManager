@@ -35,9 +35,17 @@ namespace SAM1.CrossCuttingConcerns.ResponseModels
             Username = username;
         }
 
-        internal void SetAuthenticationUrl(bool isAuthenticated)
+        internal void SetAuthenticationUrl(bool isAuthenticated, User user)
         {
-            OnSetRedirectUrl(isAuthenticated ? "/Admin/Admin" : "/Home/Login");
+            if (user.IsAdmin)
+            {
+                OnSetRedirectUrl(isAuthenticated ? "/Admin/Admin" : "/Home/Login");
+            }
+            else
+            {
+                OnSetRedirectUrl(isAuthenticated ? "/Index" : "/SignIn");
+            }
+            
         }
 
         internal int GetUserId()

@@ -12,7 +12,3 @@ C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\bin\Debug\SamDa
 C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\bin\Debug\SamDatabase.pdb
 C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\obj\Debug\SamDatabase.dll
 C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\obj\Debug\SamDatabase.pdb
-C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\obj\Debug\Model.xml
-C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\obj\Debug\refactor.xml
-C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\obj\Debug\postdeploy.sql
-C:\Users\ThierryM\Documents\StudentAttendanceManager\SamDatabase\obj\Debug\predeploy.sql

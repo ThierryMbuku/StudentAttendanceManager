@@ -267,6 +267,8 @@
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Student\Views\web.config" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\SignRegister.cshtml" />
+    <Content Include="Areas\Student\Views\Student\SignRegister.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\exporting.js" />
     <Content Include="Scripts\Highcharts-3.0.1\js\adapters\mootools-adapter.js" />
@@ -322,7 +324,7 @@
     <Content Include="Areas\Admin\Views\Admin\StudentViewList.cshtml" />
     <Content Include="Areas\Student\Views\Student\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Attendance.cshtml" />
-    <Content Include="Areas\Admin\Views\Admin\SignRegister.cshtml" />
+    <Content Include="Areas\Student\Views\Student\SignIn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

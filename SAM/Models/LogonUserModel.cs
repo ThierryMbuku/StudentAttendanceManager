@@ -10,5 +10,6 @@ namespace SAM1.Models
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
         public string ChallengeResponse { get; set; }
+        public string StudentChallengeResponse { get; set; }
     }
 }

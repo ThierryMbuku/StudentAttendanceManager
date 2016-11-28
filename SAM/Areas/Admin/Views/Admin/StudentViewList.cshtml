@@ -40,7 +40,7 @@
     @using (Html.BeginForm())
     {
         <h3>
-            Find by Username: @Html.TextBox("SearchString")
+            Find by Username: @Html.TextBox("searchString",null, new {id = "txtSearch" })
             <input type="submit" value="Search" />
         </h3>
     }

@@ -27,7 +27,9 @@ namespace SAM1
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/font-awesome.min.css"));
+
         }
     }
 }

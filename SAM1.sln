@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SamDatabase", "SamDatabase\SamDatabase.sqlproj", "{8E362D5F-1667-4AAA-91FB-03A0800F2219}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM1", "SAM\SAM1.csproj", "{FE403266-95F1-4003-823D-624046044C83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Listener", "Listener\Listener.csproj", "{788F2BD2-6D87-4936-B032-0F86AA326D01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemporaryListener", "TemporaryListener\TemporaryListener.csproj", "{7EA5D69B-78F2-40AF-B97C-29211D28050F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +27,14 @@ Global
 		{FE403266-95F1-4003-823D-624046044C83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE403266-95F1-4003-823D-624046044C83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE403266-95F1-4003-823D-624046044C83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{788F2BD2-6D87-4936-B032-0F86AA326D01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{788F2BD2-6D87-4936-B032-0F86AA326D01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{788F2BD2-6D87-4936-B032-0F86AA326D01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{788F2BD2-6D87-4936-B032-0F86AA326D01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EA5D69B-78F2-40AF-B97C-29211D28050F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EA5D69B-78F2-40AF-B97C-29211D28050F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EA5D69B-78F2-40AF-B97C-29211D28050F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EA5D69B-78F2-40AF-B97C-29211D28050F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

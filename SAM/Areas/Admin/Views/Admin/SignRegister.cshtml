@@ -1,5 +1,7 @@
-﻿
-@*@model SAM1.Models.UserModel*@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@model SAM1.Models.UserModel
 
 @{
     Layout = null;
@@ -18,19 +20,42 @@
 
 </head>
 <body>
-    <div> 
-        <h1 align="center">You may now scan the student card... </h1>
-        <img src="~/Images/rfid.jpg" alt="rfid" width="900" height="300" align="left">   
+    <>
+    <h1 align="center">Press scan button to sign in </h1>
 
-        <img src="~/Images/rfid1.jpg" alt="rfid1" width="900" height="325" align="right">
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+    @*@if (TempData.ContainsKey("IsAuthorised") && (bool)TempData["IsAuthorised"])
+    {
+        using (Html.BeginForm("SignOn", "Student"))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="UserId" value="@TempData["UserId"]" />
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.Label("Challenge", new { @class = "control -label col-md-2" })
+                        <div class="col-md-10">
+                            <input type="password" name="ChallengeResponse" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Authenticate" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+        }
+    }
+    else
+    {
+        using (Html.BeginForm("ChallengeResponse", "Student"))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Scan Card" class="btn btn-default" />
+                </div>
             </div>
-        </div>*@
-    
-    </div>
+        }
+    }*@
 </body>
 </html>
