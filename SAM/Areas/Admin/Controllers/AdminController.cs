@@ -19,8 +19,8 @@ namespace SAM1.Areas.Admin.Controllers
         }
         public ActionResult Register()
         {
-            var userId = businessFacade.GetUserIdFromTag(); // to be called from a timer event (set timer to 2 - 3 secs)
-            ViewBag.UID = userId;
+            var availableCards = businessFacade.GetAvailableCards();
+            ViewBag.AvailableCards = availableCards;
             return View();
         }
         [HttpPost]

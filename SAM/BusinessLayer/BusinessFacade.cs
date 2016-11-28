@@ -8,6 +8,7 @@ using SAM1.CrossCuttingConcerns.EventLog;
 using System;
 using System.Globalization;
 using System.IO;
+using System.Web.Mvc;
 
 namespace SAM1.BusinessLayer
 {
@@ -32,6 +33,7 @@ namespace SAM1.BusinessLayer
                         var user = new User
                         {
                             //Username = userModel.Username,
+                            
                             FirstName = userModel.FirstName,
                             LastName = userModel.LastName,
                             Email = userModel.Email,
@@ -68,6 +70,31 @@ namespace SAM1.BusinessLayer
                     }
                 }
             }
+
+        internal List<SelectListItem> GetAvailableCards()
+        {
+            var cardList = new List<SelectListItem>();
+            cardList.Add(new SelectListItem
+            {
+                Text = "-Select-",
+                Value = "-1"
+            });
+
+            using (var data = new SAMEntities())
+            {
+                var cards = data.AccessCards.Where(x=>x.CardType != 1).ToList();
+                foreach (var item in cards)
+                {
+                    cardList.Add(new SelectListItem
+                    {
+                        Text = item.CardId,
+                        Value = item.Id.ToString(),
+                    });
+                }
+
+                return cardList;
+            }
+        }
 
         internal LogonResponseModel AuthoriseStudent(LogonUserModel user, int studentId)
         {

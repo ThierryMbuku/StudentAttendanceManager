@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace SAM1.Models
 {
@@ -8,7 +10,7 @@ namespace SAM1.Models
         [Required(ErrorMessage = "Confirm Password is required")]
         [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
         [DataType(DataType.Password)]
-        [Compare("Password")]
+        [System.Web.Mvc.Compare("Password")]
         public string ConfirmPassword { get; set; }
         [Required(ErrorMessage = "Password is required")]
         [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
@@ -37,6 +39,9 @@ namespace SAM1.Models
         public string SigninDate { get; set; }
         public string SigninTime { get; set; }
         public string RegistrationDate { get; set; }
+
+        public List<SelectListItem> AvailableCards { get; set; }
+        public int SelectedCard { get; set; }
 
     }
 

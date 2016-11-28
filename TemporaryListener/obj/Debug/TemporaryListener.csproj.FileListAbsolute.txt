@@ -7,3 +7,4 @@ C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug
 C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug\EntityFramework.xml
 C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\obj\Debug\TemporaryListener.csprojResolveAssemblyReference.cache
