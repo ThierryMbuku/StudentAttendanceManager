@@ -32,7 +32,7 @@ namespace SAM1.CrossCuttingConcerns.EventLog
                     {
                         CreateDate = DateTime.Now,
                         UserId = userId,
-                        Severity = eventSeverity,
+                        EventSeverityId = (int)severity,
                         MetaData = metaData,
                         EventTypeId = eventTypeId,
                     };

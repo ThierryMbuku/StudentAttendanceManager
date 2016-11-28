@@ -14,17 +14,25 @@ namespace SAM1
     
     public partial class User
     {
-        public int ID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public User()
+        {
+            this.AccessCards = new HashSet<AccessCard>();
+        }
+    
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string Username { get; set; }
         public string PasswordHash { get; set; }
         public string CellPhone { get; set; }
         public bool IsAdmin { get; set; }
-        public int AddressID { get; set; }
-        public string SecurityChallenge { get; set; }
+        public int AddressId { get; set; }
+        public string AuthenticationCode { get; set; }
+        public System.DateTime RegistrationDate { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccessCard> AccessCards { get; set; }
         public virtual Address Address { get; set; }
     }
 }

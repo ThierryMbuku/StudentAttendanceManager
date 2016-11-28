@@ -22,7 +22,7 @@ namespace SAM1.CrossCuttingConcerns.ResponseModels
 
         internal void SetRedirectUrl(User user)
         {
-            OnSetRedirectUrl((user == null || user.IsAdmin) ? "/Home/Login" : $"/Student/Student?studentId={user.ID}");
+            OnSetRedirectUrl((user == null || user.IsAdmin) ? "/Home/Login" : $"/Student/Student?studentId={user.Id}");
         }
        
         internal string GetRedirectUrl()
@@ -55,7 +55,7 @@ namespace SAM1.CrossCuttingConcerns.ResponseModels
 
         internal void SetUserId(User user)
         {
-            UserId = user == null ? 0 : user.ID;
+            UserId = user == null ? 0 : user.Id;
         }
     }
 }

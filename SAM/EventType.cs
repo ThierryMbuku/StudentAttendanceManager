@@ -20,7 +20,7 @@ namespace SAM1
             this.EventLogs = new HashSet<EventLog>();
         }
     
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

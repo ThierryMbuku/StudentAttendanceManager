@@ -3,4 +3,7 @@ C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug
 C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug\TemporaryListener.pdb
 C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\obj\Debug\TemporaryListener.exe
 C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\obj\Debug\TemporaryListener.pdb
-C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\obj\Debug\TemporaryListener.csprojResolveAssemblyReference.cache
+C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug\EntityFramework.dll
+C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug\EntityFramework.xml
+C:\Users\ThierryM\Documents\StudentAttendanceManager\TemporaryListener\bin\Debug\EntityFramework.SqlServer.xml

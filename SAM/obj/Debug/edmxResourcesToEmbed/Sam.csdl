@@ -1,85 +1,144 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="SAMEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AccessCards" EntityType="SAMModel.AccessCard" />
     <EntitySet Name="Addresses" EntityType="SAMModel.Address" />
+    <EntitySet Name="EventLogs" EntityType="SAMModel.EventLog" />
+    <EntitySet Name="EventSeverities" EntityType="SAMModel.EventSeverity" />
+    <EntitySet Name="EventTypes" EntityType="SAMModel.EventType" />
     <EntitySet Name="Users" EntityType="SAMModel.User" />
-    <AssociationSet Name="FK__Users__AddressID__239E4DCF" Association="SAMModel.FK__Users__AddressID__239E4DCF">
+    <AssociationSet Name="FK_AccessCards_Users" Association="SAMModel.FK_AccessCards_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="AccessCard" EntitySet="AccessCards" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Addresses" Association="SAMModel.FK_Users_Addresses">
       <End Role="Address" EntitySet="Addresses" />
       <End Role="User" EntitySet="Users" />
     </AssociationSet>
-    <EntitySet Name="EventLogs" EntityType="SAMModel.EventLog" />
-    <EntitySet Name="EventTypes" EntityType="SAMModel.EventType" />
-    <AssociationSet Name="FK__EventLog__EventT__52593CB8" Association="SAMModel.FK__EventLog__EventT__52593CB8">
+    <AssociationSet Name="FK_EventLog_EventSeverity" Association="SAMModel.FK_EventLog_EventSeverity">
+      <End Role="EventSeverity" EntitySet="EventSeverities" />
+      <End Role="EventLog" EntitySet="EventLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EventLog_EventType" Association="SAMModel.FK_EventLog_EventType">
       <End Role="EventType" EntitySet="EventTypes" />
       <End Role="EventLog" EntitySet="EventLogs" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="AccessCard">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CardType" Type="Int32" Nullable="false" />
+    <Property Name="SignedIn" Type="Boolean" Nullable="false" />
+    <Property Name="CardId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UserId" Type="Int32" />
+    <NavigationProperty Name="User" Relationship="SAMModel.FK_AccessCards_Users" FromRole="AccessCard" ToRole="User" />
+  </EntityType>
   <EntityType Name="Address">
     <Key>
-      <PropertyRef Name="ID" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ComplexNumber" Type="Int32" Nullable="false" />
-    <Property Name="Street" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Suburb" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StreetNumber" Type="Int32" Nullable="false" />
+    <Property Name="Complex" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Street" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Suburb" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Users" Relationship="SAMModel.FK__Users__AddressID__239E4DCF" FromRole="Address" ToRole="User" />
+    <Property Name="PostalCode" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Users" Relationship="SAMModel.FK_Users_Addresses" FromRole="Address" ToRole="User" />
   </EntityType>
-  <EntityType Name="User">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="CellPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
-    <Property Name="AddressID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Address" Relationship="SAMModel.FK__Users__AddressID__239E4DCF" FromRole="User" ToRole="Address" />
-    <Property Name="SecurityChallenge" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <Association Name="FK__Users__AddressID__239E4DCF">
-    <End Type="SAMModel.Address" Role="Address" Multiplicity="1" />
-    <End Type="SAMModel.User" Role="User" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Address">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="User">
-        <PropertyRef Name="AddressID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="EventLog">
     <Key>
-      <PropertyRef Name="ID" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="EventTypeId" Type="Int32" Nullable="false" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="UserId" Type="Int32" Nullable="false" />
-    <Property Name="Severity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="EventType" Relationship="SAMModel.FK__EventLog__EventT__52593CB8" FromRole="EventLog" ToRole="EventType" />
+    <Property Name="EventSeverityId" Type="Int32" Nullable="false" />
     <Property Name="MetaData" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="EventSeverity" Relationship="SAMModel.FK_EventLog_EventSeverity" FromRole="EventLog" ToRole="EventSeverity" />
+    <NavigationProperty Name="EventType" Relationship="SAMModel.FK_EventLog_EventType" FromRole="EventLog" ToRole="EventType" />
+  </EntityType>
+  <EntityType Name="EventSeverity">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="EventLogs" Relationship="SAMModel.FK_EventLog_EventSeverity" FromRole="EventSeverity" ToRole="EventLog" />
   </EntityType>
   <EntityType Name="EventType">
     <Key>
-      <PropertyRef Name="ID" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="EventLogs" Relationship="SAMModel.FK__EventLog__EventT__52593CB8" FromRole="EventType" ToRole="EventLog" />
+    <NavigationProperty Name="EventLogs" Relationship="SAMModel.FK_EventLog_EventType" FromRole="EventType" ToRole="EventLog" />
   </EntityType>
-  <Association Name="FK__EventLog__EventT__52593CB8">
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CellPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+    <Property Name="AddressId" Type="Int32" Nullable="false" />
+    <Property Name="AuthenticationCode" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="RegistrationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="AccessCards" Relationship="SAMModel.FK_AccessCards_Users" FromRole="User" ToRole="AccessCard" />
+    <NavigationProperty Name="Address" Relationship="SAMModel.FK_Users_Addresses" FromRole="User" ToRole="Address" />
+  </EntityType>
+  <Association Name="FK_AccessCards_Users">
+    <End Type="SAMModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="SAMModel.AccessCard" Role="AccessCard" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccessCard">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_Addresses">
+    <End Type="SAMModel.Address" Role="Address" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SAMModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="AddressId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventLog_EventSeverity">
+    <End Type="SAMModel.EventSeverity" Role="EventSeverity" Multiplicity="1" />
+    <End Type="SAMModel.EventLog" Role="EventLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EventSeverity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EventLog">
+        <PropertyRef Name="EventSeverityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventLog_EventType">
     <End Type="SAMModel.EventType" Role="EventType" Multiplicity="1" />
     <End Type="SAMModel.EventLog" Role="EventLog" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="EventType">
-        <PropertyRef Name="ID" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="EventLog">
         <PropertyRef Name="EventTypeId" />

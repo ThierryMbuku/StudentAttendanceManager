@@ -14,13 +14,14 @@ namespace SAM1
     
     public partial class EventLog
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public int EventTypeId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public int UserId { get; set; }
-        public string Severity { get; set; }
+        public int EventSeverityId { get; set; }
         public string MetaData { get; set; }
     
+        public virtual EventSeverity EventSeverity { get; set; }
         public virtual EventType EventType { get; set; }
     }
 }

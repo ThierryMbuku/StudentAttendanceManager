@@ -167,6 +167,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessCard.cs">
+      <DependentUpon>Sam.tt</DependentUpon>
+    </Compile>
     <Compile Include="Address.cs">
       <DependentUpon>Sam.tt</DependentUpon>
     </Compile>
@@ -186,6 +189,9 @@
     <Compile Include="CrossCuttingConcerns\ResponseModels\LogonResponseModel.cs" />
     <Compile Include="CrossCuttingConcerns\ResponseModels\ResponseModel.cs" />
     <Compile Include="EventLog.cs">
+      <DependentUpon>Sam.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EventSeverity.cs">
       <DependentUpon>Sam.tt</DependentUpon>
     </Compile>
     <Compile Include="EventType.cs">

@@ -180,4 +180,3 @@ C:\Users\ThierryM\Documents\StudentAttendanceManager\SAM\bin\Antlr3.Runtime.pdb
 C:\Users\ThierryM\Documents\StudentAttendanceManager\SAM\bin\Newtonsoft.Json.xml
 C:\Users\ThierryM\Documents\StudentAttendanceManager\SAM\obj\Debug\SAM1.dll
 C:\Users\ThierryM\Documents\StudentAttendanceManager\SAM\obj\Debug\SAM1.pdb
-C:\Users\ThierryM\Documents\StudentAttendanceManager\SAM\obj\Debug\SAM1.csprojResolveAssemblyReference.cache

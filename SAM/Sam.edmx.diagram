@@ -5,12 +5,16 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="6956bebfcec94a96911dcc4bcb1e80a5" Name="Diagram1" >
-        <EntityTypeShape EntityType="SAMModel.Address" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="SAMModel.User" Width="1.5" PointX="3.375" PointY="0.75" />
-        <AssociationConnector Association="SAMModel.FK__Users__AddressID__239E4DCF" />
-        <EntityTypeShape EntityType="SAMModel.EventLog" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="SAMModel.EventType" Width="1.5" PointX="2.75" PointY="4.75" />
-        <AssociationConnector Association="SAMModel.FK__EventLog__EventT__52593CB8" />
+        <EntityTypeShape EntityType="SAMModel.AccessCard" Width="1.5" PointX="8.25" PointY="1.25" />
+        <EntityTypeShape EntityType="SAMModel.Address" Width="1.5" PointX="3.25" PointY="4.75" />
+        <EntityTypeShape EntityType="SAMModel.EventLog" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="SAMModel.EventSeverity" Width="1.5" PointX="0.75" PointY="1.5" />
+        <EntityTypeShape EntityType="SAMModel.EventType" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SAMModel.User" Width="1.5" PointX="6" PointY="3.75" />
+        <AssociationConnector Association="SAMModel.FK_AccessCards_Users" />
+        <AssociationConnector Association="SAMModel.FK_Users_Addresses" />
+        <AssociationConnector Association="SAMModel.FK_EventLog_EventSeverity" />
+        <AssociationConnector Association="SAMModel.FK_EventLog_EventType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
