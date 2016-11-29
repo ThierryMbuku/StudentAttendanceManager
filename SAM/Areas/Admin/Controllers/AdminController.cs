@@ -9,6 +9,52 @@ namespace SAM1.Areas.Admin.Controllers
     {
         private readonly BusinessLayer.BusinessFacade businessFacade = new BusinessLayer.BusinessFacade();
 
+        #region Authorise and Authentication
+
+        public ActionResult Landing()
+        {
+            return View();
+        }
+
+        public ActionResult SignIn()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Authorise()
+        {
+            var response = businessFacade.AuthoriseAccessCard();
+            TempData.Add("IsAuthorised", response.IsAuthorised);
+            TempData.Add("AuthorisationMessage", response.GetErrorMessage());
+            TempData.Add("UserId", response.GetUserId());
+
+            return Redirect(response.GetRedirectUrl());
+        }
+
+        [HttpPost]
+        public ActionResult Authenticate(LogonUserModel user)
+        {
+            var response = businessFacade.AuthenticateUser(user);
+            var errorMessage = response.GetErrorMessage();
+            TempData.Add("ErrorMessage", errorMessage);
+            TempData.Add("UserId", response.GetUserId());
+
+            return Redirect(response.GetRedirectUrl());
+        }
+
+        [HttpPost]
+        public ActionResult SignOn(LogonUserModel user)
+        {
+            var response = businessFacade.AuthoriseAccessCard();
+            TempData.Add("UserId", response.GetUserId());
+            TempData.Add("IsAuthorised", response.IsAuthorised);
+
+            return RedirectToAction(response.GetRedirectUrl());
+        }
+
+        #endregion
+
         // GET: Account
         public ActionResult Index()
         {
@@ -17,10 +63,9 @@ namespace SAM1.Areas.Admin.Controllers
                 return View(db.Users.ToList());
             }
         }
+
         public ActionResult Register()
         {
-            var availableCards = businessFacade.GetAvailableCards();
-            ViewBag.AvailableCards = availableCards;
             return View();
         }
         [HttpPost]

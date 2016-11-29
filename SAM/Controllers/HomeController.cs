@@ -19,34 +19,11 @@ namespace SAM1.Controllers
 
             return View();
         }
-
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult LogOn(LogonUserModel user)
-        {
-            var response = businessFacade.LogOn(user);
-            TempData["IsAuthorised"] = response.IsAuthorised;
-            TempData["LogonMessage"] = response.GetErrorMessage();
-            TempData["UserId"] = response.GetUserId();
-            return Redirect(response.GetRedirectUrl());
-        }
-
+      
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
             return View();
-        }
-
-        public ActionResult Authenticate(LogonUserModel user)
-        {
-            var response = businessFacade.AuthenticateUser(user);
-            TempData["LogonMessage"] = response.GetErrorMessage();
-            Session.Add("AdminUserId", user.UserId);
-            return Redirect(response.GetRedirectUrl());
         }
 
         public ActionResult LogOut()

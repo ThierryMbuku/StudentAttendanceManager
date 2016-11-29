@@ -40,9 +40,7 @@ namespace SAM1.Models
         public string SigninTime { get; set; }
         public string RegistrationDate { get; set; }
 
-        public List<SelectListItem> AvailableCards { get; set; }
-        public int SelectedCard { get; set; }
-
+       public string AuthenticationCode { get; set; }
     }
 
     public class AddressModel

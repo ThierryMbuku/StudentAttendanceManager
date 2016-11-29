@@ -1,0 +1,66 @@
+﻿
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@model SAM1.Models.LogonUserModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<p>
+</p>
+<div>
+    @Html.ActionLink("Back to Main Page", "Index")
+</div>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SignRegister</title>
+
+</head>
+<body>
+    <h1 align="center">scan your tag now </h1>
+
+    @if (TempData.ContainsKey("ErrorMessage"))
+    {
+        <span><i class="fa fa-exclamation-triangle"></i>Error occured: @TempData["ErrorMessage"].ToString()</span>
+    }
+
+    @if (TempData.ContainsKey("IsAuthorised") && (bool)TempData["IsAuthorised"])
+    {
+        using (Html.BeginForm("Authenticate", "Admin"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("UserId", TempData["UserId"].ToString())
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.Label("Challenge", new { @class = "control -label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(x => x.ChallengeResponse)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Authenticate" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        using (Html.BeginForm("Authorise", "Admin"))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Scan Card" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    }
+</body>
+</html>

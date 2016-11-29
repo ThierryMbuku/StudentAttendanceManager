@@ -7,24 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SAM1
+namespace TemporaryListener
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class EventType
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string PasswordHash { get; set; }
-        public string CellPhone { get; set; }
-        public bool IsAdmin { get; set; }
-        public int AddressId { get; set; }
-        public string AuthenticationCode { get; set; }
-        public System.DateTime RegistrationDate { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public EventType()
+        {
+            this.EventLogs = new HashSet<EventLog>();
+        }
     
-        public virtual Address Address { get; set; }
+        public int Id { get; set; }
+        public string Description { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EventLog> EventLogs { get; set; }
     }
 }

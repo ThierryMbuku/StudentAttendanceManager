@@ -57,11 +57,12 @@ namespace SAM1.Areas.Student.Controllers
         public ActionResult SignOn(LogonUserModel user)
         {
             var businessFacade = new BusinessLayer.BusinessFacade();
-            var response = businessFacade.ScanTagToSignIn(user);
-            TempData.Add("UserId", response.GetUserId());
-            TempData.Add("IsAuthorised", response.IsAuthorised);
+            var response = businessFacade.AuthoriseAccessCard();
+            //TempData.Add("UserId", response.GetUserId());
+            //TempData.Add("IsAuthorised", response.IsAuthorised);
 
-            return RedirectToAction(response.GetRedirectUrl());
+            //return RedirectToAction(response.GetRedirectUrl());
+            return null;
         }
     }
 }

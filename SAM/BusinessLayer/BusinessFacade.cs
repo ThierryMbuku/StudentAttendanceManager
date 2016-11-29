@@ -9,6 +9,8 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Web.Mvc;
+using System.IO.Ports;
+using SAM1.CrossCuttingConcerns.Enums;
 
 namespace SAM1.BusinessLayer
 {
@@ -21,179 +23,209 @@ namespace SAM1.BusinessLayer
             eventLogger = new EventLogger();
         }
 
+        //WORKS
+        internal LogonResponseModel AuthoriseAccessCard()
+        {
+            var responseModel = new LogonResponseModel();
+
+            // Read Student UID from Card
+            var cardId = GetCardId();
+            using (var db = new SAMEntities())
+            {
+                var scannedCard = db.AccessCards.FirstOrDefault(x => x.CardId == cardId && x.CardType == (int)AccessCardTypes.Administrator);
+                if (scannedCard != null)
+                {
+                    var authorisedUser = db.Users.FirstOrDefault(u => u.Id == scannedCard.UserId && u.IsAdmin);
+                    // Authenticate User
+                    if (authorisedUser == null)
+                    {
+                        responseModel.IsAuthorised = false;
+                        responseModel.SetErrorMessage("Invalid combination of card and userId");
+                        eventLogger.LogEvent(scannedCard.CardId, CrossCuttingConcerns.EventLog.EventType.User_Authentication, CrossCuttingConcerns.EventLog.EventSeverity.Error);
+                    }
+                    else
+                    {
+                        responseModel.IsAuthorised = true;
+                        responseModel.SetUserId(authorisedUser);
+                    }
+
+                    responseModel.SetAuthorisationUrl(responseModel.IsAuthorised, authorisedUser);
+                }
+                else
+                {
+                    throw new UnauthorizedAccessException("SAM does not recognize your card!");
+                }
+            }
+
+            return responseModel;
+        }
+        //WORKS
         internal string RegisterStudent(UserModel userModel)
         {
             //perform businness rule validation
             // if (success)
             // write data by calling mmethod in Data Access Layer           
             using (var db = new SAMEntities())
+            {
+                try
                 {
-                    try
+                    var user = new User
                     {
-                        var user = new User
+                        //Username = userModel.Username,
+
+                        FirstName = userModel.FirstName,
+                        LastName = userModel.LastName,
+                        Email = userModel.Email,
+                        CellPhone = userModel.CellPhone,
+                        PasswordHash = userModel.Password.GenerateHash(),
+                        IsAdmin = userModel.IsAdmin,
+                        AuthenticationCode = userModel.AuthenticationCode,
+                        RegistrationDate = DateTime.Now.ToUniversalTime(),
+                        Address = new Address
                         {
-                            //Username = userModel.Username,
-                            
-                            FirstName = userModel.FirstName,
-                            LastName = userModel.LastName,
-                            Email = userModel.Email,
-                            CellPhone = userModel.CellPhone,
-                            PasswordHash = userModel.Password.GenerateHash(),
-                            IsAdmin = userModel.IsAdmin,
-                            Address = new Address
-                            {
-                                Complex = userModel.Address.ComplexNumber,
-                                Street = userModel.Address.Street,
-                                Suburb = userModel.Address.Suburb,
-                                City = userModel.Address.City,
-                                PostalCode = Convert.ToInt32(userModel.Address.PostalCode),
-                            }
-                        };
+                            Complex = userModel.Address.ComplexNumber,
+                            Street = userModel.Address.Street,
+                            Suburb = userModel.Address.Suburb,
+                            City = userModel.Address.City,
+                            PostalCode = Convert.ToInt32(userModel.Address.PostalCode),
+                        }
+                    };
 
-                        db.Users.Add(user);
-                        db.SaveChanges();
+                    db.Users.Add(user);
+                    db.SaveChanges();
 
-                        eventLogger.LogEvent(user.Id, CrossCuttingConcerns.EventLog.EventType.Admin_Register_Student, CrossCuttingConcerns.EventLog.EventSeverity.Informational);
+                    eventLogger.LogEvent(user.Id, CrossCuttingConcerns.EventLog.EventType.Admin_Register_Student, CrossCuttingConcerns.EventLog.EventSeverity.Informational);
 
-                        return $"{userModel.FirstName} {userModel.LastName} Successfully registered";
-                    }
-                    catch (DbEntityValidationException ex)
-                    {
-                        var errorMessages = ex.EntityValidationErrors
-                                .SelectMany(x => x.ValidationErrors)
-                                .Select(x => x.ErrorMessage + " " + x.PropertyName);
-
-                        var fullErrorMessage = string.Join(" => ", errorMessages);
-                        var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
-                        eventLogger.LogEvent(userModel.AdminUserId, CrossCuttingConcerns.EventLog.EventType.Admin_Register_Student, CrossCuttingConcerns.EventLog.EventSeverity.Error);
-                        throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
-                    }
+                    return $"{userModel.FirstName} {userModel.LastName} Successfully registered";
                 }
-            }
-
-        internal List<SelectListItem> GetAvailableCards()
-        {
-            var cardList = new List<SelectListItem>();
-            cardList.Add(new SelectListItem
-            {
-                Text = "-Select-",
-                Value = "-1"
-            });
-
-            using (var data = new SAMEntities())
-            {
-                var cards = data.AccessCards.Where(x=>x.CardType != 1).ToList();
-                foreach (var item in cards)
+                catch (DbEntityValidationException ex)
                 {
-                    cardList.Add(new SelectListItem
-                    {
-                        Text = item.CardId,
-                        Value = item.Id.ToString(),
-                    });
-                }
+                    var errorMessages = ex.EntityValidationErrors
+                            .SelectMany(x => x.ValidationErrors)
+                            .Select(x => x.ErrorMessage + " " + x.PropertyName);
 
-                return cardList;
+                    var fullErrorMessage = string.Join(" => ", errorMessages);
+                    var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
+                    eventLogger.LogEvent(userModel.AdminUserId, CrossCuttingConcerns.EventLog.EventType.Admin_Register_Student, CrossCuttingConcerns.EventLog.EventSeverity.Error);
+                    throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
+                }
             }
         }
 
-        internal LogonResponseModel AuthoriseStudent(LogonUserModel user, int studentId)
+        //WORKS
+        internal LogonResponseModel AuthenticateUser(LogonUserModel user)
         {
             var responseModel = new LogonResponseModel();
-            var hash = user.Password.GenerateHash();
+
+            //1) Go to the db and get the userId            
             using (var db = new SAMEntities())
             {
-                var authenticatedUser = db.Users.FirstOrDefault(u => u.Id == studentId && !u.IsAdmin && u.PasswordHash == hash);
-                responseModel.SetUserId(authenticatedUser);
-                responseModel.SetRedirectUrl(authenticatedUser);
+                var authenticatedAccessCard = db.AccessCards.FirstOrDefault(x => x.UserId == user.UserId);
+                var authenticatedUser = db.Users.FirstOrDefault(x => x.Id == authenticatedAccessCard.UserId);
 
-                if (authenticatedUser == null)
+                bool isAuthenticated = false;
+                if (authenticatedAccessCard != null)
                 {
-                    eventLogger.AddMetaData($"username: {user.Username} | Password: {user.Password}");
-                    eventLogger.LogEvent(-1, CrossCuttingConcerns.EventLog.EventType.User_Authorisation, CrossCuttingConcerns.EventLog.EventSeverity.Error);
+                    //2) Go and check the challenge inputted == the stored challenge in the db
+                    isAuthenticated = string.Equals(authenticatedUser.AuthenticationCode, user.ChallengeResponse);
+                    responseModel.IsAuthenticated = isAuthenticated;
+                }
 
+                responseModel.SetAuthenticationUrl(isAuthenticated, authenticatedUser);
+                responseModel.SetUserId(authenticatedUser);
+
+                if (!isAuthenticated)
+                {
                     responseModel.SetErrorMessage("Invalid username or password");
+                    eventLogger.LogEvent(authenticatedUser.Id, CrossCuttingConcerns.EventLog.EventType.User_Authentication, CrossCuttingConcerns.EventLog.EventSeverity.Error);
                 }
                 else
                 {
-                    eventLogger.LogEvent(authenticatedUser.Id, CrossCuttingConcerns.EventLog.EventType.User_Authorisation, CrossCuttingConcerns.EventLog.EventSeverity.Informational);
                     eventLogger.LogEvent(authenticatedUser.Id, CrossCuttingConcerns.EventLog.EventType.User_Authentication, CrossCuttingConcerns.EventLog.EventSeverity.Informational);
-
-                    responseModel.IsAuthorised = true;
-                    //responseModel.SetUsername(authenticatedUser.Username);
                 }
+
+                return responseModel;
             }
-            return responseModel;
         }
 
-        internal string GetUserIdFromTag()
+        //WORKS
+        private string GetCardId()
         {
-            var studentNo = string.Empty;
-            try
+            SerialPort myport = new SerialPort();
+            myport.BaudRate = 9600;
+            myport.PortName = "COM3";
+            myport.Close();
+            myport.Open();
+            bool whileCondition = true;
+            string cardId = "";
+            string scannedCardId = "";
+
+            while (whileCondition)
             {
-                //File d = new DirectoryInfo("c:\\test.txt");
-                if (File.Exists("c:\\test.txt"))
+                scannedCardId = myport.ReadLine();
+                if (scannedCardId.Contains("Card UID"))
                 {
-                    const int tryCount = 3;
-                    var counter = 0;
-                    while (tryCount > counter)
+                    var cardInfo = scannedCardId.Split(':');
+                    if (cardInfo.Any())
                     {
-                        var file = new StreamReader("c:\\test.txt");
-                        if (!string.IsNullOrEmpty(file.ReadToEnd()))
-                        {
-                            var myfile = File.OpenText("c:\\test.txt");
-                            studentNo = myfile.ReadLine().Trim();
-                            myfile.Close();
-                            file.Close();
-                            File.Delete("c:\\test.txt");
-                            break;
-                        }
-                        counter++;
+                        cardId = cardInfo[1].Replace(Environment.NewLine, string.Empty);
+                        cardId = cardInfo[1].Replace("\r", string.Empty);
+                        cardId = cardId.Replace(" ", string.Empty);
+                        whileCondition = false;
                     }
                 }
             }
-            catch(Exception)
-            {
-                return studentNo;
-            }
-            return studentNo;
+            myport.Close();
+            return cardId;
         }
-        internal LogonResponseModel ScanTagToSignIn(LogonUserModel user)
+
+        internal List<UserModel> StudentList(string studentid = "")
         {
-            var responseModel = new LogonResponseModel();
-           
-            // Read Student UID from File
-            var studentNo = string.Empty;
-            if (File.Exists("c:\\test.txt"))
-            {
-                studentNo = File.ReadAllText("c:\\test.txt");
-                studentNo = studentNo.Replace(Environment.NewLine, string.Empty);
-                studentNo = studentNo.Replace("\r", string.Empty);
+            var students = new List<UserModel>();
 
-                // Find Username in the database
-                using (var db = new SAMEntities())
+            using (var db = new SAMEntities())
+            {
+                var users = db.Users.Where(x => !x.IsAdmin).ToList();
+                var eventLogs = db.EventLogs.Distinct().ToList();
+
+                foreach (var user in users)
                 {
-                    //var authenthorisedUser = db.Users.FirstOrDefault(u => u.Id == (int)studentNo && !u.IsAdmin);
-                    User authenthorisedUser = null;
-
-                    // Authenticate User
-                    if (authenthorisedUser == null)
+                    var registrationEventLog = eventLogs.FirstOrDefault(x => x.UserId == user.Id && x.EventTypeId == CrossCuttingConcerns.EventLog.EventType.Admin_Register_Student.GetEnumValue());
+                    var signinEventLog = eventLogs.LastOrDefault(x => x.UserId == user.Id && x.EventTypeId == CrossCuttingConcerns.EventLog.EventType.User_Authorisation.GetEnumValue());
+                    students.Add(new UserModel
                     {
-                        responseModel.SetErrorMessage("Security Card error or the security card doesnt exist");
-                        //eventLogger.LogEvent(authenthorisedUser.Username, CrossCuttingConcerns.EventLog.EventType.User_Authentication, EventSeverity.Error);
-                    }
-                    else
-                    {
-                        responseModel.IsAuthorised = true;
-                        responseModel.SetUserId(authenthorisedUser);
-                        responseModel.SetAuthenticationUrl(false, authenthorisedUser);
-                    }
-                    return responseModel;
+                        //Username = user.AccessCards.ToString(), -- this maps to the access cards table
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        CellPhone = user.CellPhone,
+                        RegistrationDate = registrationEventLog.CreateDate.ToShortDateString(),
+                        SigninDate = signinEventLog == null ? "Not Logged In" : signinEventLog.CreateDate.ToShortDateString(),
+                        SigninTime = signinEventLog == null ? "Not Logged In" : signinEventLog.CreateDate.ToShortTimeString(),
+                    });
                 }
+                return students;
             }
-            else
+        }
+
+        internal StudentModel FindStudent(int studentId)
+        {
+            using (var db = new SAMEntities())
             {
-                throw new Exception("SAM does not recognize your card!");
-            }            
+                var dbStudent = db.Users.FirstOrDefault(x => x.Id == studentId && !x.IsAdmin);
+
+                eventLogger.LogEvent(studentId, CrossCuttingConcerns.EventLog.EventType.User_Find_Student, CrossCuttingConcerns.EventLog.EventSeverity.Informational);
+
+                return dbStudent == null ? null : new StudentModel
+                {
+                    Id = dbStudent.Id,
+                    FirstName = dbStudent.FirstName,
+                    CellPhone = dbStudent.CellPhone,
+                    LastName = dbStudent.LastName,
+                    Email = dbStudent.Email,
+                    //Username = dbStudent.Username,
+                };
+            }
         }
 
         internal SigninProgressResponseModel CalculateStudentProgess(int studentId)
@@ -220,115 +252,9 @@ namespace SAM1.BusinessLayer
                 var responseModel = new SigninProgressResponseModel();
 
                 responseModel.CreateProgressItem("Days Attended", signedInDates);
-                responseModel.CreateProgressItem("Days Required Attendance",requiredSigninDayCount);
+                responseModel.CreateProgressItem("Days Required Attendance", requiredSigninDayCount);
 
                 return responseModel;
-            }
-        }
-
-        internal LogonResponseModel AuthenticateUser(LogonUserModel user)
-        {
-            var responseModel = new LogonResponseModel();
-
-            //1) Go to the db and get the userId            
-            using (var db = new SAMEntities())
-            {
-                var authenticatedUser = db.Users.FirstOrDefault(u => u.Id == user.UserId);
-
-                //2) Go and check the challenge inputted === the stored challenge in the db
-                var isAuthenticated = string.Equals(authenticatedUser.AuthenticationCode, user.ChallengeResponse);
-                responseModel.IsAuthenticated = isAuthenticated; //? Session based??
-
-                responseModel.SetAuthenticationUrl(isAuthenticated, authenticatedUser);
-                responseModel.SetUserId(authenticatedUser);
-
-                if (!isAuthenticated)
-                {
-                    responseModel.SetErrorMessage("Invalid username or password");
-                    eventLogger.LogEvent(authenticatedUser.Id, CrossCuttingConcerns.EventLog.EventType.User_Authentication, CrossCuttingConcerns.EventLog.EventSeverity.Error);
-                }
-
-                return responseModel;
-            }
-        }
-
-        internal List<UserModel> StudentList(string studentid = "")
-        {
-            var students = new List<UserModel>();
-           
-            using (var db = new SAMEntities())
-            {
-                var users = db.Users.Where(x => !x.IsAdmin).ToList();
-                var eventLogs = db.EventLogs.Distinct().ToList();
-
-                foreach (var user in users)
-                {
-                    var registrationEventLog = eventLogs.FirstOrDefault(x => x.UserId == user.Id && x.EventTypeId == CrossCuttingConcerns.EventLog.EventType.Admin_Register_Student.GetEnumValue());
-                    var signinEventLog = eventLogs.LastOrDefault(x => x.UserId == user.Id && x.EventTypeId == CrossCuttingConcerns.EventLog.EventType.User_Authorisation.GetEnumValue());
-                    students.Add(new UserModel
-                    {
-                        //Username = user.AccessCards.ToString(), -- this maps to the access cards table
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
-                        Email = user.Email,
-                        CellPhone = user.CellPhone,
-                        RegistrationDate = registrationEventLog.CreateDate.ToShortDateString(),
-                        SigninDate = signinEventLog == null ? "Not Logged In" : signinEventLog.CreateDate.ToShortDateString(),
-                        SigninTime = signinEventLog == null ? "Not Logged In" : signinEventLog.CreateDate.ToShortTimeString(),
-                    });
-                }
-                return students;
-            }
-        }
-        internal LogonResponseModel LogOn(LogonUserModel userModel)
-        {
-            //Step 1 Generate hash for password
-            var responseModel = new LogonResponseModel();
-            var hash = userModel.Password.GenerateHash();
-
-            //Step2 : validate against dbHash
-            using (var db = new SAMEntities())
-            {
-                //var usr = db.Users.FirstOrDefault(u => u. == userModel.Username && u.PasswordHash == hash);
-                User usr = null;
-                responseModel.SetUserId(usr);
-                responseModel.SetRedirectUrl(usr);
-                if (usr == null)
-                {
-                    eventLogger.AddMetaData($"username: {userModel.Username} | Password: {userModel.Password}");
-                    eventLogger.LogEvent(-1, CrossCuttingConcerns.EventLog.EventType.User_Authorisation, CrossCuttingConcerns.EventLog.EventSeverity.Error);
-
-                    responseModel.SetErrorMessage("Invalid username or password");
-                }
-                else
-                {
-                    eventLogger.LogEvent(usr.Id, CrossCuttingConcerns.EventLog.EventType.User_Authorisation, CrossCuttingConcerns.EventLog.EventSeverity.Informational);
-                    eventLogger.LogEvent(usr.Id, CrossCuttingConcerns.EventLog.EventType.User_Authentication, CrossCuttingConcerns.EventLog.EventSeverity.Informational);
-
-                    responseModel.IsAuthorised = true;
-                    //responseModel.SetUsername(usr.Username);
-                }
-
-                return responseModel;
-            }
-        }
-        internal StudentModel FindStudent(int studentId)
-        {
-            using (var db = new SAMEntities())
-            {
-                var dbStudent = db.Users.FirstOrDefault(x => x.Id == studentId && !x.IsAdmin);
-
-                eventLogger.LogEvent(studentId, CrossCuttingConcerns.EventLog.EventType.User_Find_Student, CrossCuttingConcerns.EventLog.EventSeverity.Informational);
-
-                return dbStudent == null ? null : new StudentModel
-                {
-                    Id = dbStudent.Id,
-                    FirstName = dbStudent.FirstName,
-                    CellPhone = dbStudent.CellPhone,
-                    LastName = dbStudent.LastName,
-                    Email = dbStudent.Email,
-                    //Username = dbStudent.Username,
-                };
             }
         }
     }

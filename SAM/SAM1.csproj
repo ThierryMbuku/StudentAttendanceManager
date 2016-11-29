@@ -182,6 +182,7 @@
     <Compile Include="BusinessLayer\BusinessFacade.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="CrossCuttingConcerns\Enums\Enumerations.cs" />
     <Compile Include="CrossCuttingConcerns\EventLog\EventLogger.cs" />
     <Compile Include="CrossCuttingConcerns\EventLog\IEventLogger.cs" />
     <Compile Include="CrossCuttingConcerns\Extensions\CryptogrpahicExtensions.cs" />
@@ -273,8 +274,9 @@
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Student\Views\web.config" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\Admin\SignRegister.cshtml" />
     <Content Include="Areas\Student\Views\Student\SignRegister.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\SignIn.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Landing.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\exporting.js" />
     <Content Include="Scripts\Highcharts-3.0.1\js\adapters\mootools-adapter.js" />
@@ -324,7 +326,6 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Register.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\LoggedIn.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\StudentViewList.cshtml" />

@@ -26,5 +26,10 @@ namespace TemporaryListener
         }
     
         public virtual DbSet<AccessCard> AccessCards { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<EventLog> EventLogs { get; set; }
+        public virtual DbSet<EventSeverity> EventSeverities { get; set; }
+        public virtual DbSet<EventType> EventTypes { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

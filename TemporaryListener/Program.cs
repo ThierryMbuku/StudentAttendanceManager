@@ -19,65 +19,64 @@ namespace TemporaryListener
             myport.PortName = "COM3";
             myport.Open();
 
-            Console.WriteLine("Scan card now. Press any key");
-           Console.ReadLine();
+            // Console.WriteLine("Scan card now. Press any key");
+            //Console.ReadLine();
 
-            string condition = myport.ReadLine();
-            if (condition.Contains("Card UID"))
+            // string condition = myport.ReadLine();
+            // if (condition.Contains("Card UID"))
+            // {
+            //     var cardInfo = condition.Split(':');
+            //     if (cardInfo.Any())
+            //     {
+            //         var cardId = cardInfo[1].Replace(Environment.NewLine, string.Empty);
+            //         cardId = cardInfo[1].Replace("\r", string.Empty);
+            //         cardId = cardId.Replace(" ", string.Empty);
+
+            //         Console.WriteLine(cardId);
+            //     }
+            // }
+
+            // Console.Read();
+
+            while (true)
             {
-                var cardInfo = condition.Split(':');
-                if (cardInfo.Any())
+                string condition = myport.ReadLine();
+                Console.WriteLine(condition);
+                if (condition.Contains("Card UID"))
                 {
-                    var cardId = cardInfo[1].Replace(Environment.NewLine, string.Empty);
-                    cardId = cardInfo[1].Replace("\r", string.Empty);
-                    cardId = cardId.Replace(" ", string.Empty);
+                    var cardInfo = condition.Split(':');
+                    if (cardInfo.Any())
+                    {
+                        var cardId = cardInfo[1].Replace(Environment.NewLine, string.Empty);
+                        cardId = cardInfo[1].Replace("\r", string.Empty);
+                        cardId = cardId.Replace(" ", string.Empty);
 
-                    Console.WriteLine(cardId);
+                        var cardType = -1;
+                        if (cardId == "75FD17A6") //admin card id here
+                        {
+                            cardType = 1;
+                        }
+                        else
+                        {
+                            cardType = 2;
+                        }
+                        using (var data = new SAMEntities())
+                        {
+                            data.AccessCards.Add(new AccessCard()
+                            {
+                                CardType = (int)cardType,
+                                CardId = cardId,
+                                CreateDate = DateTime.Now,
+                                SignedIn = false,
+                                UserId = null
+                            });
+                            data.SaveChanges();
+                            Console.WriteLine("Written card: " + cardId);
+                        }
+
+                    }
                 }
             }
-
-            Console.Read();
-
-            //while (true)
-            //{
-            //    string condition = myport.ReadLine();
-            //    Console.WriteLine(condition);
-            //    if (condition.Contains("Card UID"))
-            //    {
-            //        var cardInfo = condition.Split(':');
-            //        if (cardInfo.Any())
-            //        {
-            //            var cardId = cardInfo[1].Replace(Environment.NewLine, string.Empty);
-            //            cardId = cardInfo[1].Replace("\r", string.Empty);
-            //            cardId = cardId.Replace(" ", string.Empty);
-
-            //            var cardType = -1;
-            //            if (cardId == "75FD17A6") //admin card id here
-            //            {
-            //                cardType = 1;
-            //            }
-            //            else
-            //            {
-            //                cardType = 2;
-            //            }
-            //            //using (var data = new SAMEntities())
-            //            //{
-            //            //    data.AccessCards.Add(new AccessCard()
-            //            //    {
-            //            //        CardType = (int)cardType,
-            //            //        CardId = cardId,
-            //            //        CreateDate = DateTime.Now,
-            //            //        SignedIn = false,
-            //            //        UserId = null
-            //            //    });
-            //            //    data.SaveChanges();
-            //            //    Console.WriteLine("Written card: " + cardId);
-            //            //}
-
-
-
-            //        }
-            //    }
         }
     }
 }

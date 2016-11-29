@@ -7,18 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SAM1
+namespace TemporaryListener
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class AccessCard
+    public partial class EventLog
     {
         public int Id { get; set; }
-        public int CardType { get; set; }
-        public bool SignedIn { get; set; }
-        public string CardId { get; set; }
+        public int EventTypeId { get; set; }
         public System.DateTime CreateDate { get; set; }
-        public Nullable<int> UserId { get; set; }
+        public int UserId { get; set; }
+        public int EventSeverityId { get; set; }
+        public string MetaData { get; set; }
+    
+        public virtual EventSeverity EventSeverity { get; set; }
+        public virtual EventType EventType { get; set; }
     }
 }

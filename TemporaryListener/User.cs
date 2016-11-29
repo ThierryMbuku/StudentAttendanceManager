@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SAM1
+namespace TemporaryListener
 {
     using System;
     using System.Collections.Generic;

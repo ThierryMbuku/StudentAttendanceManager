@@ -22,9 +22,9 @@ namespace SAM1.CrossCuttingConcerns.ResponseModels
 
         internal void SetRedirectUrl(User user)
         {
-            OnSetRedirectUrl((user == null || user.IsAdmin) ? "/Home/Login" : $"/Student/Student?studentId={user.Id}");
+            OnSetRedirectUrl((user != null && user.IsAdmin) ? "/Admin/Admin/Index" : "/Home/Indx");
         }
-       
+
         internal string GetRedirectUrl()
         {
             return OnGetRedirectUrl();
@@ -35,18 +35,34 @@ namespace SAM1.CrossCuttingConcerns.ResponseModels
             Username = username;
         }
 
+        internal void SetAuthorisationUrl(bool isAuthorised, User authorisedUser)
+        {
+            var url = "";
+            if (authorisedUser.IsAdmin)
+            {
+                url = isAuthorised ? "/Admin/Admin/Signin" : "/Admin/Admin/Signin";
+            }
+            else
+            {
+                url = isAuthorised ? "/Student/Student/Index" : "/Student/Student/Signin";
+            }
+
+            OnSetRedirectUrl(url);
+        }
         internal void SetAuthenticationUrl(bool isAuthenticated, User user)
         {
             if (user.IsAdmin)
             {
-                OnSetRedirectUrl(isAuthenticated ? "/Admin/Admin" : "/Home/Login");
+                OnSetRedirectUrl(isAuthenticated ? "/Admin/Admin" : "/Admin/Signin");
             }
             else
             {
-                OnSetRedirectUrl(isAuthenticated ? "/Index" : "/SignIn");
+                OnSetRedirectUrl(isAuthenticated ? "/Student/Index" : "/Student/SignIn");
             }
-            
+
         }
+
+
 
         internal int GetUserId()
         {
@@ -57,5 +73,7 @@ namespace SAM1.CrossCuttingConcerns.ResponseModels
         {
             UserId = user == null ? 0 : user.Id;
         }
+
+
     }
 }
