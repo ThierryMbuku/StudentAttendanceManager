@@ -1,0 +1,125 @@
+﻿
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model  SAM1.Models.StudentAccessCardModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>StudentCards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css.map">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/FontAwesome.otf">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2">
+</head>
+<body>
+    <div class="container">
+        @if (TempData.ContainsKey("ErrorMessage"))
+        {
+            <p>
+                <span><i class="fa fa-exclamation"></i>Errors Occured while linking: @TempData["ErrorMessage"]</span>
+            </p>
+        }
+        <div class="col-sm-12 row">
+            <p><h4>Available Students</h4></p>
+            <!-- Student list table-->
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>CellPhone</th>
+                        <th>Action</th>
+                    </tr>
+                    <tbody>
+                        @foreach (var student in Model.AvailableStudents)
+                        {
+                            <tr>
+                                <td>@student.FirstName</td>
+                                <td>@student.LastName</td>
+                                <td>@student.Email</td>
+                                <td>@student.CellPhone</td>
+                                <td>
+                                    @using (@Html.BeginForm("UpdateStudentAccessCardLink", "Admin", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("UserId", student.Id)
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("operationType", "LinkCardToStudent")
+                                        <span><i class="icon-unlink"></i></span><button type="submit">Link Access Card</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Linked Student list table-->
+            <h4>Linked Cards</h4>
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        @if (Model.LinkedStudentAccessCards.Any())
+                        {
+                            <table class="table table-hover">
+                                <tr>
+                                    <th>Access Card ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>CellPhone</th>
+                                    <th>Action</th>
+                                </tr>
+                                <tbody>
+                                    @foreach (var linkedCard in Model.LinkedStudentAccessCards)
+                                    {
+                                        <tr>
+                                            <td>@linkedCard.CardId</td>
+                                            <td>@linkedCard.Student.FirstName</td>
+                                            <td>@linkedCard.Student.LastName</td>
+                                            <td>@linkedCard.Student.Email</td>
+                                            <td>@linkedCard.Student.CellPhone</td>
+                                            <td>
+                                                @using (@Html.BeginForm("UpdateStudentAccessCardLink", "Admin", FormMethod.Post))
+                                                {
+                                                    @Html.Hidden("UserId", linkedCard.Student.Id)
+                                                    @Html.Hidden("CardId", linkedCard.Id)
+                                                    @Html.AntiForgeryToken()
+                                                    @Html.Hidden("operationType", "UnLinkCardFromStudent")
+                                                    <span><i class="icon-link"></i></span><button type="submit">UnLink Access Card</button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <span>No Linked cards found</span>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

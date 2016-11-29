@@ -203,7 +203,10 @@
     </Compile>
     <Compile Include="Models\LogonUserModel.cs" />
     <Compile Include="Models\SearchFilterModel.cs" />
-    <Compile Include="Models\SigninProgressResponseModel.cs" />
+    <Compile Include="CrossCuttingConcerns\ResponseModels\SigninProgressResponseModel.cs" />
+    <Compile Include="Models\StudentAccessCard.cs" />
+    <Compile Include="CrossCuttingConcerns\ResponseModels\StudentAccessCardLinkResponse.cs" />
+    <Compile Include="Models\StudentAccessCardModel.cs" />
     <Compile Include="Models\StudentModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -277,6 +280,7 @@
     <Content Include="Areas\Student\Views\Student\SignRegister.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\SignIn.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Landing.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\StudentCards.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\exporting.js" />
     <Content Include="Scripts\Highcharts-3.0.1\js\adapters\mootools-adapter.js" />

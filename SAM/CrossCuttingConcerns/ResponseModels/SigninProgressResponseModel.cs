@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SAM1.Models
+namespace SAM1.CrossCuttingConcerns.ResponseModels
 {
     public class SigninProgressResponseModel : ResponseModel
     {

@@ -26,9 +26,7 @@ namespace SAM1.Models
         public string Email { get; set; }
         [Required]
         public string CellPhone { get; set; }
-        [StringLength(10, MinimumLength = 9)]
-        [Required]
-        public string Username { get; set; }
+       
         public bool IsAdmin { get; set; }
 
         [Required]

@@ -1,6 +1,4 @@
-﻿using System;
-using SAM1.Models;
-
+﻿
 namespace SAM1.CrossCuttingConcerns.ResponseModels
 {
     public class LogonResponseModel : ResponseModel
@@ -62,8 +60,6 @@ namespace SAM1.CrossCuttingConcerns.ResponseModels
 
         }
 
-
-
         internal int GetUserId()
         {
             return UserId;
@@ -73,7 +69,5 @@ namespace SAM1.CrossCuttingConcerns.ResponseModels
         {
             UserId = user == null ? 0 : user.Id;
         }
-
-
     }
 }

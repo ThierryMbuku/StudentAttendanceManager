@@ -59,6 +59,83 @@ namespace SAM1.BusinessLayer
 
             return responseModel;
         }
+
+        internal StudentAccessCardLinkResponse PerformStudentAccessCardLink(int userId, string operationType, int? cardId)
+        {
+            if (operationType == CardLinkOperations.LinkCardToStudent.ToString())
+            {
+                return LinkCardToStudent(userId);
+            }
+            else
+            {
+                return UnLinkCardFromStudent(userId, cardId);
+            }
+        }
+
+        private StudentAccessCardLinkResponse LinkCardToStudent(int userId)
+        {
+            var response = new StudentAccessCardLinkResponse();
+            var cardId = GetCardId();
+
+            using (var data = new SAMEntities())
+            {
+                //Check if the card exists by joining on the userId and the cardId to make a composite Primary Key
+                var existingAccessCard = data.AccessCards.FirstOrDefault(x => x.CardId == cardId && x.UserId == userId);
+                if (existingAccessCard == null)
+                {
+                    //The card is available to be assigned
+
+                    //go get the card
+                    var availableCard = data.AccessCards.FirstOrDefault(x => x.CardId == cardId);
+                    var currentUser = data.Users.FirstOrDefault(x => x.Id == userId);
+
+                    //Link the card to the user
+                    availableCard.UserId = currentUser.Id;
+
+                    try
+                    {
+                        data.SaveChanges();
+                        response.WasOperationSuccessful = true;
+                        response.SetUserId(userId);
+                    }
+                    catch
+                    {
+                        response.SetErrorMessage("Errors occured while linking card to the student");
+                    }
+                }
+            }
+            return response;
+        }
+
+        private StudentAccessCardLinkResponse UnLinkCardFromStudent(int userId, int? cardId)
+        {
+            var response = new StudentAccessCardLinkResponse();
+
+            using (var data = new SAMEntities())
+            {
+                //Check if the card exists by joining on the userId and the cardId to make a composite Primary Key
+                var existingAccesCard = data.AccessCards.FirstOrDefault(x => x.Id == cardId && x.UserId == userId);
+                if (existingAccesCard != null)
+                {
+                    //The card is available to be unassigned
+                    //Link the card to the user
+                    existingAccesCard.UserId = null;
+
+                    try
+                    {
+                        data.SaveChanges();
+                        response.WasOperationSuccessful = true;
+                        response.SetUserId(userId);
+                    }
+                    catch
+                    {
+                        response.SetErrorMessage("Errors occured while linking card to the student");
+                    }
+                }
+            }
+            return response;
+        }
+
         //WORKS
         internal string RegisterStudent(UserModel userModel)
         {
@@ -177,6 +254,58 @@ namespace SAM1.BusinessLayer
             }
             myport.Close();
             return cardId;
+        }
+
+        internal StudentAccessCardModel GetStudentAccessCards()
+        {
+            var reponseModel = new StudentAccessCardModel();
+
+            using (var data = new SAMEntities())
+            {
+                var accessCards = data.AccessCards.ToList();
+
+                var accessCardIds = accessCards.Where(x => x.UserId != null).Select(x => x.UserId).ToList();
+                var dataAvailableStudents = data.Users.Where(x => !accessCardIds.Contains(x.Id)).ToList(); // it will be on - the admin
+
+                var availableStudents = new List<StudentModel>();
+                var linkedStudentCards = new List<StudentAccessCard>();
+
+                var linkedStudents = data.Users.Where(x => accessCardIds.Contains(x.Id) && !x.IsAdmin).ToList();
+                foreach (var item in linkedStudents)
+                {
+                    var accessCard = accessCards.FirstOrDefault(x => x.UserId != null && x.UserId == item.Id);
+                    linkedStudentCards.Add(new StudentAccessCard
+                    {
+                        Id = accessCard.Id,
+                        CardId = accessCard.CardId,
+                        LinkDate = accessCard.CreateDate,
+                        Student = new StudentModel
+                        {
+                            Id = item.Id,
+                            FirstName = item.FirstName,
+                            LastName = item.LastName,
+                            Email = item.Email,
+                            CellPhone = item.CellPhone,
+                        }
+                    });
+                }
+                reponseModel.LinkedStudentAccessCards = linkedStudentCards;
+
+                foreach (var item in dataAvailableStudents)
+                {
+                    availableStudents.Add(new StudentModel
+                    {
+                        Id = item.Id,
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        Email = item.Email,
+                        CellPhone = item.CellPhone
+                    });
+                }
+                reponseModel.AvailableStudents = availableStudents;
+            }
+
+            return reponseModel;
         }
 
         internal List<UserModel> StudentList(string studentid = "")

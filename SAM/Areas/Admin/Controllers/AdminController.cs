@@ -25,9 +25,9 @@ namespace SAM1.Areas.Admin.Controllers
         public ActionResult Authorise()
         {
             var response = businessFacade.AuthoriseAccessCard();
-            TempData.Add("IsAuthorised", response.IsAuthorised);
-            TempData.Add("AuthorisationMessage", response.GetErrorMessage());
-            TempData.Add("UserId", response.GetUserId());
+            TempData["IsAuthorised"] = response.IsAuthorised;
+            TempData["AuthorisationMessage"] = response.GetErrorMessage();
+            TempData["UserId"] = response.GetUserId();
 
             return Redirect(response.GetRedirectUrl());
         }
@@ -38,7 +38,7 @@ namespace SAM1.Areas.Admin.Controllers
             var response = businessFacade.AuthenticateUser(user);
             var errorMessage = response.GetErrorMessage();
             TempData.Add("ErrorMessage", errorMessage);
-            TempData.Add("UserId", response.GetUserId());
+            Session.Add("AdminUserId", response.GetUserId());
 
             return Redirect(response.GetRedirectUrl());
         }
@@ -51,6 +51,23 @@ namespace SAM1.Areas.Admin.Controllers
             TempData.Add("IsAuthorised", response.IsAuthorised);
 
             return RedirectToAction(response.GetRedirectUrl());
+        }
+
+        //Linking students to access cards
+        public ActionResult StudentCards()
+        {
+            var response = businessFacade.GetStudentAccessCards();
+            return View(response);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateStudentAccessCardLink(int userId, string operationType, int? cardId)
+        {
+            var response = businessFacade.PerformStudentAccessCardLink(userId, operationType, cardId);
+            TempData["ErrorMessage"] = response.GetErrorMessage();
+            TempData["UserId"] = response.GetUserId();
+            TempData["WasOperationSuccessful"] = response.WasOperationSuccessful;
+            return RedirectToAction("StudentCards");
         }
 
         #endregion
